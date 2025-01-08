@@ -1,0 +1,156 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navbar Container */
+.navbar {
+  width: 100%;
+  color: white;
+  box-shadow: 0 1px 4px rgba(146, 161, 176, 0.15);
+  position: fixed; /* Fixes the navbar at the top of the screen */
+  top: 0;
+  left: 0;
+  z-index: 10; /* Ensure navbar stays above other content */
+  height: 62px; /* Set fixed height for the navbar */
+}
+
+/* Navigation Container */
+.nav-container {
+  display: flex;
+  justify-content: space-between; /* Space between hamburger and logo */
+  align-items: center;
+  height: 100%; /* Match navbar height */
+  width: 100%; /* Ensure it spans the full width */
+  padding: 0 20px; /* Adjust inner spacing */
+}
+
+/* Logo Styling */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: whitesmoke;
+  margin-left: auto; /* Push the logo to the far right */
+}
+
+/* Hamburger Menu Styling */
+.checkbox {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  opacity: 0; /* Hidden but functional */
+  cursor: pointer;
+  z-index: 1200; /* Above everything to be clickable */
+}
+
+.hamburger-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 26px;
+  width: 32px;
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 1100; /* Below the checkbox but above the menu */
+}
+
+.hamburger-lines .line {
+  height: 4px;
+  width: 100%;
+  background: whitesmoke;
+  border-radius: 10px;
+  transition:
+    transform 0.4s ease-in-out,
+    scaleY 0.2s ease-in-out;
+}
+
+/* Transform the hamburger lines into an "X" when menu is open */
+.checkbox:checked ~ .hamburger-lines .line1 {
+  transform: rotate(45deg);
+  transform-origin: top left;
+}
+
+.checkbox:checked ~ .hamburger-lines .line2 {
+  transform: scaleY(0); /* Hide the middle line */
+}
+
+.checkbox:checked ~ .hamburger-lines .line3 {
+  transform: rotate(-45deg);
+  transform-origin: bottom left;
+}
+
+/* Menu Items Styling */
+.menu-items {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background: var(--secondary-color);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%); /* Initially hidden */
+  transition: transform 0.5s ease-in-out;
+  z-index: 1000; /* Ensure menu is below the logo */
+  padding-top: 120px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-items li {
+  list-style: none;
+}
+
+.menu-items a {
+  text-decoration: none;
+  color: wheat;
+  font-weight: 500;
+  font-size: 1.2rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.menu-items a:hover {
+  color: #0066cc; /* Change color on hover */
+}
+
+/* Show the menu when the checkbox is checked */
+.checkbox:checked ~ .menu-items {
+  transform: translateX(0); /* Slide menu in */
+}
+
+/* Router-Outlet Styling */
+main {
+  margin-top: 62px; /* Same height as the navbar */
+  padding: 20px; /* Add padding to give some spacing */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 15px;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .menu-items {
+    width: 80%; /* Adjust menu width for smaller screens */
+  }
+
+  main {
+    margin-top: 62px; /* Keep consistent with the navbar height */
+  }
+}

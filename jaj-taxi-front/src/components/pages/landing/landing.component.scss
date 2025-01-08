@@ -1,0 +1,46 @@
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 3rem;
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.body-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 6vh;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: row; /* Ensures cards are in a row */
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  justify-content: space-around; /* Adds spacing between cards */
+  align-items: flex-start; /* Prevents vertical stretching */
+  gap: 16px; /* Adds spacing between the cards */
+  width: 100%; /* Makes sure the container spans the full width */
+  margin: 0 auto; /* Centers the container */
+}
+
+.card {
+  flex: 1 1 calc(25% - 16px); /* Adjust card width to 25% with space between */
+  max-width: 600px; /* Ensures a maximum size for larger screens */
+  min-width: 150px; /* Prevents cards from becoming too small */
+  box-sizing: border-box; /* Includes padding and border in the width */
+}
+
+app-landing-card {
+  display: block; /* Ensures the component behaves like a block-level element */
+  width: 100%; /* Makes the card component fill its parent */
+  height: auto;
+  border-radius: 8px; /* Optional: Rounded corners for the card */
+}

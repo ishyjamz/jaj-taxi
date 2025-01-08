@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="title-container">
+    <h1 class="title">Welcome to JAJ Taxi</h1>
+  </div>
+  <div class="body-container">
+    <p>
+      Welcome to JAJ Taxi – Reliable and Friendly Taxi Service in Rugby! Looking
+      for a dependable taxi service in Rugby? Look no further than JAJ Taxi! We
+      take pride in offering exceptional 24/7 transportation solutions, ensuring
+      you're always on time, whether it’s for work, leisure, or a night out. At
+      JAJ Taxi, customer satisfaction is at the heart of everything we do. With
+      a fleet of well-maintained vehicles and friendly, experienced drivers,
+      we’re here to make your journey safe, comfortable, and stress-free.
+      Whether you're traveling across Rugby or need a longer ride, our team is
+      dedicated to providing the reliable service you deserve—day or night, rain
+      or shine. Choose JAJ Taxi for the ride you can trust!
+    </p>
+  </div>
+</div>
+
+<div class="card-container">
+  <div class="card" *ngFor="let landingCard of landingCards">
+    <app-landing-card [landingCard]="landingCard"></app-landing-card>
+  </div>
+</div>

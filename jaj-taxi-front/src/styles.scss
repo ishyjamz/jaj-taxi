@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+/* Define color variables */
+:root {
+  --primary-color: #ffd700; /* Golden Yellow */
+  --secondary-color: #2c3e50; /* Dark Blue-Grey */
+  --background-color: #f8f9fa; /* Light Grey */
+  --text-color: #2c3e50; /* Dark Blue-Grey */
+  --button-highlight: #00bfff; /* Sky Blue */
+}
+
+/* Apply global styles */
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Utility Classes for Reusability */
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--button-highlight);
+}
