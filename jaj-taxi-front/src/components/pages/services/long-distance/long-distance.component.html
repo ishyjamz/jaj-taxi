@@ -1,0 +1,84 @@
+<header class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Long Distance Taxi Service</h1>
+    <p>
+      Travel further with ease and comfort. Our long-distance service ensures
+      your journey is smooth and enjoyable.
+    </p>
+    <a href="#booking" class="btn btn-primary">Book Now</a>
+  </div>
+</header>
+
+<main>
+  <!-- Features Section -->
+  <section class="features">
+    <h2 class="section-title">Why Choose Our Long Distance Service?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <img src="https://via.placeholder.com/100" alt="Affordable Pricing" />
+        <h3>Affordable Pricing</h3>
+        <p>Get competitive rates for long-distance travel.</p>
+      </div>
+      <div class="feature">
+        <img src="https://via.placeholder.com/100" alt="Comfortable Rides" />
+        <h3>Comfortable Rides</h3>
+        <p>Relax in our well-maintained, spacious vehicles.</p>
+      </div>
+      <div class="feature">
+        <img src="https://via.placeholder.com/100" alt="Experienced Drivers" />
+        <h3>Experienced Drivers</h3>
+        <p>Our professional drivers ensure a safe and reliable journey.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Calculator Section -->
+  <section class="pricing-calculator">
+    <h2 class="section-title">Calculate Your Trip Cost</h2>
+    <form class="calculator-form" (ngSubmit)="calculatePrice()">
+      <div class="form-group">
+        <label for="distance">Enter Distance (in km):</label>
+        <input
+          type="number"
+          id="distance"
+          [(ngModel)]="distance"
+          name="distance"
+          required
+          placeholder="e.g., 100"
+        />
+      </div>
+      <div class="form-group">
+        <label for="price-per-km">Price per km (in $):</label>
+        <input
+          type="number"
+          id="price-per-km"
+          [(ngModel)]="pricePerKm"
+          name="pricePerKm"
+          required
+          placeholder="e.g., 0.75"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+
+    <div class="result" *ngIf="totalPrice !== null">
+      <h3>Estimated Price: ${{ totalPrice.toFixed(2) }}</h3>
+    </div>
+  </section>
+
+  <!-- Booking Form Section -->
+  <section class="booking" id="booking">
+    <h2 class="section-title">Book Your Long Distance Ride</h2>
+    <form class="booking-form">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <input type="tel" placeholder="Phone Number" required />
+      <input type="text" placeholder="Pickup Location" required />
+      <input type="text" placeholder="Drop-off Location" required />
+      <input type="datetime-local" required />
+      <textarea placeholder="Special Requests (optional)"></textarea>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </section>
+</main>

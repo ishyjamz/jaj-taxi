@@ -1,0 +1,49 @@
+<nav>
+  <div class="navbar">
+    <div class="container nav-container">
+      <!-- Checkbox for toggling -->
+      <input class="checkbox" type="checkbox" id="toggle-menu" />
+      <!-- Label tied to the checkbox -->
+      <label for="toggle-menu" class="hamburger-lines">
+        <span class="line line1"></span>
+        <span class="line line2"></span>
+        <span class="line line3"></span>
+      </label>
+
+      <a class="home-button" routerLink="/home">
+        <svg
+          class="home-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+        </svg>
+        Home
+      </a>
+
+      <!-- Logo -->
+      <div class="logo">
+        <h1>JAJ TAXI RUGBY</h1>
+      </div>
+      <!-- Menu items -->
+      <ul class="menu-items">
+        <li><a routerLink="/home">Home</a></li>
+        <li class="dropdown">
+          <a routerLink="/services">Our Services </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a routerLink="/services/airport-transfer">Airport Transfer</a>
+            </li>
+            <li><a routerLink="/services/long-distance">Long Distance </a></li>
+            <li><a routerLink="/services/address-pickup">Address Pickup</a></li>
+            <li><a routerLink="/services/station-pickup">Station Pickup</a></li>
+          </ul>
+        </li>
+        <li><a routerLink="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<main>
+  <router-outlet></router-outlet>
+</main>

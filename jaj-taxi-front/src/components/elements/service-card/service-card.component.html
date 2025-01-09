@@ -1,0 +1,15 @@
+<article class="service-card">
+  <div class="card-wrapper">
+    <figure>
+      <img [src]="serviceCard.imgUrl" [alt]="serviceCard.title" />
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title">{{ serviceCard.title }}</h2>
+      <p class="card-description">{{ serviceCard.description }}</p>
+      <a [routerLink]="serviceCard.link" class="card-link">
+        Find out more
+        <span class="icon">→</span>
+      </a>
+    </div>
+  </div>
+</article>

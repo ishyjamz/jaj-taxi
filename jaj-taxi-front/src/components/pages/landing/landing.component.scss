@@ -1,46 +1,180 @@
-.title-container {
+.hero-section {
+  position: relative;
+  height: 400px;
+  background: url("https://scontent-lhr6-2.xx.fbcdn.net/v/t1.6435-9/164830951_113680850795915_5596391991110357881_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=b5_hV8OH4RoQ7kNvgGMlJ3b&_nc_zt=23&_nc_ht=scontent-lhr6-2.xx&_nc_gid=AClraz-gEvX0N5lMMVPX7R7&oh=00_AYD6MvbtjSeA3JwEAS10RpyQx7ucDQeGXE4wktbS_5veKA&oe=67A6A5F8")
+    center/cover no-repeat;
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-.title {
-  font-size: 3rem;
-  margin: 0;
-  padding: 0;
-  color: var(--text-color);
-  font-weight: bold;
-}
-
-.body-container {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
-  margin-bottom: 6vh;
+  text-align: center;
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(
+      0,
+      0,
+      0,
+      0.4
+    ); /* Dark overlay for better text visibility */
+  }
+
+  .hero-content {
+    position: relative;
+    color: white;
+    z-index: 1;
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      justify-content: center;
+
+      .hero-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        width: 200px;
+        height: 50px;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        background-color: #0066cc; /* Default blue */
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+
+        &:hover::before,
+        &:hover::after {
+          content: "";
+          position: absolute;
+          height: 2px;
+          width: 100%;
+        }
+
+        &:hover::before {
+          top: 0;
+          left: 0;
+          animation: slide-in 0.3s forwards;
+        }
+
+        &:hover::after {
+          bottom: 0;
+          left: 0;
+          animation: slide-in 0.3s forwards;
+        }
+      }
+
+      @keyframes slide-in {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      .explore-button {
+        background-color: #0066cc;
+        &:hover {
+          background-color: #005bb5;
+        }
+      }
+
+      .call-button {
+        background-color: #28a745;
+        &:hover {
+          background-color: #218838;
+        }
+      }
+
+      .or-separator {
+        font-size: 1rem;
+        font-weight: bold;
+        color: white;
+        margin: 0 10px;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          width: 40px;
+          height: 2px;
+          background-color: white;
+        }
+
+        &::before {
+          left: -50px;
+          transform: translateY(-50%);
+        }
+
+        &::after {
+          right: -50px;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
 }
 
-.card-container {
-  display: flex;
-  flex-direction: row; /* Ensures cards are in a row */
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
-  justify-content: space-around; /* Adds spacing between cards */
-  align-items: flex-start; /* Prevents vertical stretching */
-  gap: 16px; /* Adds spacing between the cards */
-  width: 100%; /* Makes sure the container spans the full width */
-  margin: 0 auto; /* Centers the container */
-}
+.landing-container {
+  padding: 40px 20px;
 
-.card {
-  flex: 1 1 calc(25% - 16px); /* Adjust card width to 25% with space between */
-  max-width: 600px; /* Ensures a maximum size for larger screens */
-  min-width: 150px; /* Prevents cards from becoming too small */
-  box-sizing: border-box; /* Includes padding and border in the width */
-}
+  .intro-section {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
 
-app-landing-card {
-  display: block; /* Ensures the component behaves like a block-level element */
-  width: 100%; /* Makes the card component fill its parent */
-  height: auto;
-  border-radius: 8px; /* Optional: Rounded corners for the card */
+    .intro-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #555;
+    }
+  }
+
+  .card-section {
+    display: flex; /* Cards are side by side */
+    gap: 5vh; /* Add a small gap between cards */
+    margin-top: 40px;
+    justify-content: center;
+    flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+
+    app-landing-card {
+      flex: 1 1 calc(33.333% - 20px); /* Each card takes up 1/3 of the row with a gap */
+      max-width: calc(33.333% - 20px);
+      min-width: 250px; /* Prevent cards from getting too small */
+    }
+  }
 }

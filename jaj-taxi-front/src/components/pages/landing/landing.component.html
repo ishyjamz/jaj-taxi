@@ -1,9 +1,25 @@
-<div class="container">
-  <div class="title-container">
-    <h1 class="title">Welcome to JAJ Taxi</h1>
+<div class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">Ride with Confidence</h1>
+    <p class="hero-subtitle">
+      Reliable, affordable, and professional taxi services in Rugby. Book your
+      ride today and experience the comfort and convenience of JAJ Taxi.
+    </p>
+    <div class="hero-buttons">
+      <a routerLink="/services" class="hero-button explore-button"
+        >Explore Services</a
+      >
+      <span class="or-separator">OR</span>
+      <a href="tel:+447570881964" class="hero-button call-button">Call Now</a>
+    </div>
   </div>
-  <div class="body-container">
-    <p>
+</div>
+
+<div class="landing-container">
+  <div class="intro-section">
+    <h1 class="intro-title">Welcome to JAJ Taxi</h1>
+    <p class="intro-text">
       Welcome to JAJ Taxi – Reliable and Friendly Taxi Service in Rugby! Looking
       for a dependable taxi service in Rugby? Look no further than JAJ Taxi! We
       take pride in offering exceptional 24/7 transportation solutions, ensuring
@@ -16,10 +32,11 @@
       or shine. Choose JAJ Taxi for the ride you can trust!
     </p>
   </div>
-</div>
 
-<div class="card-container">
-  <div class="card" *ngFor="let landingCard of landingCards">
-    <app-landing-card [landingCard]="landingCard"></app-landing-card>
+  <div class="card-section" id="services">
+    <app-landing-card
+      *ngFor="let landingCard of landingCards"
+      [landingCard]="landingCard"
+    ></app-landing-card>
   </div>
 </div>

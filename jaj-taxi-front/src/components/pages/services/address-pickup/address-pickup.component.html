@@ -1,0 +1,95 @@
+<header class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Address Pickup Taxi Service</h1>
+    <p>
+      Enjoy reliable and punctual pickups directly from your address. We make
+      sure you reach your destination hassle-free.
+    </p>
+    <a href="#booking" class="btn btn-primary">Book Now</a>
+  </div>
+</header>
+
+<main>
+  <!-- Features Section -->
+  <section class="features">
+    <h2 class="section-title">Why Choose Our Address Pickup Service?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <img src="https://via.placeholder.com/100" alt="On-Time Pickup" />
+        <h3>On-Time Pickup</h3>
+        <p>We value your time and ensure timely pickups from your address.</p>
+      </div>
+      <div class="feature">
+        <img src="https://via.placeholder.com/100" alt="Safe & Secure" />
+        <h3>Safe & Secure</h3>
+        <p>Enjoy peace of mind with our safe and secure rides.</p>
+      </div>
+      <div class="feature">
+        <img src="https://via.placeholder.com/100" alt="Professional Drivers" />
+        <h3>Professional Drivers</h3>
+        <p>Our experienced drivers ensure a smooth and pleasant journey.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Calculator Section -->
+  <section class="pricing-calculator">
+    <h2 class="section-title">Calculate Your Trip Cost</h2>
+    <form class="calculator-form" (ngSubmit)="calculatePrice()">
+      <div class="form-group">
+        <label for="distance">Enter Distance (in km):</label>
+        <input
+          type="number"
+          id="distance"
+          [(ngModel)]="distance"
+          name="distance"
+          required
+          placeholder="e.g., 15"
+        />
+      </div>
+      <div class="form-group">
+        <label for="base-price">Base Pickup Price (in $):</label>
+        <input
+          type="number"
+          id="base-price"
+          [(ngModel)]="basePrice"
+          name="basePrice"
+          required
+          placeholder="e.g., 10"
+        />
+      </div>
+      <div class="form-group">
+        <label for="price-per-km">Price per km (in $):</label>
+        <input
+          type="number"
+          id="price-per-km"
+          [(ngModel)]="pricePerKm"
+          name="pricePerKm"
+          required
+          placeholder="e.g., 0.50"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+
+    <div class="result" *ngIf="totalPrice !== null">
+      <h3>Estimated Price: ${{ totalPrice.toFixed(2) }}</h3>
+    </div>
+  </section>
+
+  <!-- Booking Form Section -->
+  <section class="booking" id="booking">
+    <h2 class="section-title">Book Your Address Pickup Ride</h2>
+    <form class="booking-form">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <input type="tel" placeholder="Phone Number" required />
+      <input type="text" placeholder="Pickup Address" required />
+      <input type="text" placeholder="Destination Address" required />
+      <input type="datetime-local" required />
+      <textarea placeholder="Special Requests (optional)"></textarea>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </section>
+</main>
