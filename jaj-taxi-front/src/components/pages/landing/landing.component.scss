@@ -1,12 +1,21 @@
 .hero-section {
   position: relative;
   height: 400px;
-  background: url("https://scontent-lhr6-2.xx.fbcdn.net/v/t1.6435-9/164830951_113680850795915_5596391991110357881_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=b5_hV8OH4RoQ7kNvgGMlJ3b&_nc_zt=23&_nc_ht=scontent-lhr6-2.xx&_nc_gid=AClraz-gEvX0N5lMMVPX7R7&oh=00_AYD6MvbtjSeA3JwEAS10RpyQx7ucDQeGXE4wktbS_5veKA&oe=67A6A5F8")
-    center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+
+  /* Add the blurred background image */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("https://scontent-lhr6-2.xx.fbcdn.net/v/t1.6435-9/164830951_113680850795915_5596391991110357881_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=b5_hV8OH4RoQ7kNvgGMlJ3b&_nc_zt=23&_nc_ht=scontent-lhr6-2.xx&_nc_gid=AClraz-gEvX0N5lMMVPX7R7&oh=00_AYD6MvbtjSeA3JwEAS10RpyQx7ucDQeGXE4wktbS_5veKA&oe=67A6A5F8")
+      center/cover no-repeat;
+    filter: blur(5px); /* Apply the blur effect */
+    z-index: -1; /* Ensure it's behind the content */
+  }
 
   .hero-overlay {
     position: absolute;
@@ -17,6 +26,7 @@
       0,
       0.4
     ); /* Dark overlay for better text visibility */
+    z-index: 0;
   }
 
   .hero-content {
@@ -63,35 +73,6 @@
 
         &:hover {
           transform: scale(1.05);
-        }
-
-        &:hover::before,
-        &:hover::after {
-          content: "";
-          position: absolute;
-          height: 2px;
-          width: 100%;
-        }
-
-        &:hover::before {
-          top: 0;
-          left: 0;
-          animation: slide-in 0.3s forwards;
-        }
-
-        &:hover::after {
-          bottom: 0;
-          left: 0;
-          animation: slide-in 0.3s forwards;
-        }
-      }
-
-      @keyframes slide-in {
-        from {
-          width: 0;
-        }
-        to {
-          width: 100%;
         }
       }
 
