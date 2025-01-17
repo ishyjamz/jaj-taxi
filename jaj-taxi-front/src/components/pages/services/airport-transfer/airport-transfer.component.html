@@ -7,23 +7,26 @@
         Experience comfort and reliability with our professional airport
         transfer service. We're here to make your journey stress-free.
       </p>
-      <a href="#booking" class="btn btn-primary">Book Now</a>
+      <a (click)="scrollToBooking()" class="btn btn-primary"> Book Now </a>
     </div>
   </header>
 
   <main>
     <!-- Features Section -->
     <section class="features">
-      <h2 class="section-title">Why Choose Us?</h2>
+      <h2 class="section-title">Why Choose Our Airport Transfer Service?</h2>
       <div class="features-grid">
         <div class="feature">
-          <img src="https://via.placeholder.com/100" alt="24/7 Availability" />
-          <h3>24/7 Availability</h3>
-          <p>We are available round-the-clock to meet your travel needs.</p>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/MUTCD_D9-6.svg/1200px-MUTCD_D9-6.svg.png"
+            alt="24/7 Availability"
+          />
+          <h3>Wheelchair Access</h3>
+          <p>We provide wheelchair access for those with disabilities.</p>
         </div>
         <div class="feature">
           <img
-            src="https://via.placeholder.com/100"
+            src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Car_icon_alone.png"
             alt="Professional Drivers"
           />
           <h3>Professional Drivers</h3>
@@ -32,49 +35,165 @@
           </p>
         </div>
         <div class="feature">
-          <img src="https://via.placeholder.com/100" alt="Luxury Vehicles" />
-          <h3>Luxury Vehicles</h3>
-          <p>Travel in comfort and style with our well-maintained fleet.</p>
+          <img
+            src="https://static.thenounproject.com/png/1568675-200.png"
+            alt="Friendly Service"
+          />
+          <h3>Friendly Service</h3>
+          <p>We provide friendly and personalised service to our customers.</p>
         </div>
       </div>
     </section>
 
     <!-- Pricing Section -->
     <section class="pricing">
-      <h2 class="section-title">Our Pricing</h2>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <h3>Standard</h3>
-          <p class="price">50</p>
-          <p>Perfect for budget-conscious travelers.</p>
-          <a href="#booking" class="btn btn-secondary">Book Now</a>
-        </div>
-        <div class="pricing-card">
-          <h3>Business</h3>
-          <p class="price">$70</p>
-          <p>Ideal for business travelers seeking comfort.</p>
-          <a href="#booking" class="btn btn-secondary">Book Now</a>
-        </div>
-        <div class="pricing-card">
-          <h3>Luxury</h3>
-          <p class="price">$100</p>
-          <p>Experience ultimate luxury and style.</p>
-          <a href="#booking" class="btn btn-secondary">Book Now</a>
-        </div>
-      </div>
+      <h2 class="section-title">Our Pricing (Excl. Parking Charge)</h2>
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Destination</th>
+            <th>Price</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Birmingham</td>
+            <td>£50</td>
+            <td>Convenient and affordable for nearby travelers.</td>
+          </tr>
+          <tr>
+            <td>Heathrow</td>
+            <td>£145</td>
+            <td>Perfect for international flights and business trips.</td>
+          </tr>
+          <tr>
+            <td>Manchester</td>
+            <td>£145</td>
+            <td>Reliable service for a stress-free long-distance journey.</td>
+          </tr>
+          <tr>
+            <td>Stansted</td>
+            <td>£145</td>
+            <td>Comfortable transfer to one of the busiest UK airports.</td>
+          </tr>
+          <tr>
+            <td>Luton</td>
+            <td>£70</td>
+            <td>Ideal for budget travelers heading to the airport.</td>
+          </tr>
+          <tr>
+            <td>Gatwick</td>
+            <td>£170</td>
+            <td>Luxurious and convenient transfers for long-haul flights.</td>
+          </tr>
+          <tr>
+            <td>East Midlands</td>
+            <td>£55</td>
+            <td>Quick and efficient service for regional flights.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- Booking Form Section -->
-    <section class="booking" id="booking">
+    <section class="booking" id="booking" #bookingSection>
       <h2 class="section-title">Book Your Transfer</h2>
       <form action="#" method="post" class="booking-form">
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <input type="tel" placeholder="Phone Number" required />
-        <input type="text" placeholder="Pickup Location" required />
-        <input type="text" placeholder="Drop-off Location" required />
-        <input type="datetime-local" required />
-        <textarea placeholder="Special Requests (optional)"></textarea>
+        <!-- Standard Booking Fields -->
+        <input type="text" placeholder="Your Name" name="name" required />
+        <input type="email" placeholder="Your Email" name="email" required />
+        <input type="tel" placeholder="Phone Number" name="phone" required />
+        <input
+          type="text"
+          placeholder="Pickup Address/Location"
+          name="pickup"
+          required
+        />
+        <input type="text" placeholder="Airport Name" name="airport" required />
+        <label for="pickupDateTime">Pickup Date/Time:</label>
+        <input
+          type="datetime-local"
+          placeholder="Pickup Date/Time"
+          name="pickupDateTime"
+          required
+        />
+        <textarea
+          placeholder="Special Requests (optional)"
+          name="specialRequests"
+        ></textarea>
+
+        <!-- Radio Buttons for Return Trip -->
+        <div class="radio-group">
+          <p>Is this a return trip?</p>
+          <div class="radio-options">
+            <label>
+              <input
+                type="radio"
+                name="isReturnTrip"
+                [(ngModel)]="isReturnTrip"
+                [value]="true"
+                (change)="onReturnTripChange()"
+              />
+              Yes
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="isReturnTrip"
+                [(ngModel)]="isReturnTrip"
+                [value]="false"
+                (change)="onReturnTripChange()"
+              />
+              No
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="isReturnTrip" class="return-trip-section">
+          <div class="radio-group">
+            <p>Is the return location the same as the pickup location?</p>
+            <div class="radio-options">
+              <label>
+                <input
+                  type="radio"
+                  name="isSameLocation"
+                  [(ngModel)]="isSameLocation"
+                  [value]="true"
+                  (change)="onSameLocationChange()"
+                />
+                Yes
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="isSameLocation"
+                  [(ngModel)]="isSameLocation"
+                  [value]="false"
+                  (change)="onSameLocationChange()"
+                />
+                No
+              </label>
+            </div>
+          </div>
+          <div *ngIf="!isSameLocation">
+            <input
+              type="text"
+              placeholder="Return Drop-off Location"
+              name="returnLocation"
+              required
+            />
+          </div>
+          <label for="returnDateTime">Return Date/Time:</label>
+          <input
+            type="datetime-local"
+            placeholder="Return Date/Time"
+            name="returnDateTime"
+            required
+          />
+        </div>
+
+        <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </section>

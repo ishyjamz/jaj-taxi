@@ -33,10 +33,44 @@
     </p>
   </div>
 
-  <div class="card-section" id="services">
-    <app-landing-card
-      *ngFor="let landingCard of landingCards"
-      [landingCard]="landingCard"
-    ></app-landing-card>
-  </div>
+  <section class="features">
+    <h2 class="section-title">Why Choose Us?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/MUTCD_D9-6.svg/1200px-MUTCD_D9-6.svg.png"
+          alt="24/7 Availability"
+        />
+        <h3>Wheelchair Access</h3>
+        <p>We provide wheelchair access for those with disabilities.</p>
+      </div>
+      <div class="feature">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Car_icon_alone.png"
+          alt="Professional Drivers"
+        />
+        <h3>Professional Drivers</h3>
+        <p>
+          Our drivers are experienced, courteous, and ensure a safe journey.
+        </p>
+      </div>
+      <div class="feature">
+        <img
+          src="https://static.thenounproject.com/png/1568675-200.png"
+          alt="Friendly Service"
+        />
+        <h3>Friendly Service</h3>
+        <p>We provide friendly and personalised service to our customers.</p>
+      </div>
+    </div>
+  </section>
+  <section class="cards">
+    <h2 class="section-title">Want to Find Out More?</h2>
+    <div class="card-section" id="services">
+      <app-landing-card
+        *ngFor="let landingCard of landingCards"
+        [landingCard]="landingCard"
+      ></app-landing-card>
+    </div>
+  </section>
 </div>

@@ -1,95 +1,100 @@
 <header class="hero">
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1>Address Pickup Taxi Service</h1>
+    <h1>Local Pickup</h1>
     <p>
-      Enjoy reliable and punctual pickups directly from your address. We make
-      sure you reach your destination hassle-free.
+      Travel further with ease and comfort. Our long-distance service ensures
+      your journey is smooth and enjoyable.
     </p>
-    <a href="#booking" class="btn btn-primary">Book Now</a>
+    <a (click)="scrollToBooking()" class="btn btn-primary"> Book Now </a>
   </div>
 </header>
 
 <main>
   <!-- Features Section -->
   <section class="features">
-    <h2 class="section-title">Why Choose Our Address Pickup Service?</h2>
+    <h2 class="section-title">Why Ride With Us?</h2>
     <div class="features-grid">
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="On-Time Pickup" />
-        <h3>On-Time Pickup</h3>
-        <p>We value your time and ensure timely pickups from your address.</p>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/MUTCD_D9-6.svg/1200px-MUTCD_D9-6.svg.png"
+          alt="24/7 Availability"
+        />
+        <h3>Wheelchair Access</h3>
+        <p>We provide wheelchair access for those with disabilities.</p>
       </div>
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Safe & Secure" />
-        <h3>Safe & Secure</h3>
-        <p>Enjoy peace of mind with our safe and secure rides.</p>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Car_icon_alone.png"
+          alt="Professional Drivers"
+        />
+        <h3>Speedy and Punctual</h3>
+        <p>
+          We value your time and pride ourselves on punctuality. Our drivers are
+          committed to getting you to your destination swiftly and on schedule.
+        </p>
       </div>
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Professional Drivers" />
-        <h3>Professional Drivers</h3>
-        <p>Our experienced drivers ensure a smooth and pleasant journey.</p>
+        <img
+          src="https://static.thenounproject.com/png/1568675-200.png"
+          alt="Friendly Service"
+        />
+        <h3>Competitive Rates</h3>
+        <p>
+          Enjoy top-notch service at prices that won’t break the bank.
+          Transparency and value are at the core of our pricing.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Calculator Section -->
-  <section class="pricing-calculator">
-    <h2 class="section-title">Calculate Your Trip Cost</h2>
-    <form class="calculator-form" (ngSubmit)="calculatePrice()">
-      <div class="form-group">
-        <label for="distance">Enter Distance (in km):</label>
-        <input
-          type="number"
-          id="distance"
-          [(ngModel)]="distance"
-          name="distance"
-          required
-          placeholder="e.g., 15"
-        />
-      </div>
-      <div class="form-group">
-        <label for="base-price">Base Pickup Price (in $):</label>
-        <input
-          type="number"
-          id="base-price"
-          [(ngModel)]="basePrice"
-          name="basePrice"
-          required
-          placeholder="e.g., 10"
-        />
-      </div>
-      <div class="form-group">
-        <label for="price-per-km">Price per km (in $):</label>
-        <input
-          type="number"
-          id="price-per-km"
-          [(ngModel)]="pricePerKm"
-          name="pricePerKm"
-          required
-          placeholder="e.g., 0.50"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">Calculate</button>
-    </form>
-
-    <div class="result" *ngIf="totalPrice !== null">
-      <h3>Estimated Price: ${{ totalPrice.toFixed(2) }}</h3>
-    </div>
-  </section>
-
-  <!-- Booking Form Section -->
-  <section class="booking" id="booking">
-    <h2 class="section-title">Book Your Address Pickup Ride</h2>
+  <!-- Booking Section -->
+  <section class="booking" id="booking" #bookingSection>
+    <h2 class="section-title">Book Your Ride</h2>
     <form class="booking-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <input type="tel" placeholder="Phone Number" required />
-      <input type="text" placeholder="Pickup Address" required />
-      <input type="text" placeholder="Destination Address" required />
-      <input type="datetime-local" required />
-      <textarea placeholder="Special Requests (optional)"></textarea>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <!-- Booking Fields -->
+      <div class="form-group">
+        <h3 class="form-title">Booking Details</h3>
+        <label for="name">Your Name</label>
+        <input id="name" type="text" placeholder="Your Name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input id="email" type="email" placeholder="Your Email" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" placeholder="Phone Number" required />
+      </div>
+      <div class="form-group">
+        <label for="pickup">Pickup Address/Location</label>
+        <input
+          id="pickup"
+          type="text"
+          placeholder="Pickup Address/Location"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="dropoff">Drop-off Address/Location</label>
+        <input
+          id="dropoff"
+          type="text"
+          placeholder="Drop-off Address/Location"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="pickupDateTime">Pickup Date/Time</label>
+        <input
+          id="pickupDateTime"
+          type="datetime-local"
+          name="pickupDateTime"
+          required
+        />
+      </div>
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Submit Booking</button>
     </form>
   </section>
 </main>

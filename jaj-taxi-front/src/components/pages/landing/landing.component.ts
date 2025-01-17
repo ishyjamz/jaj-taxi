@@ -3,11 +3,17 @@ import { LandingCardComponent } from '../../elements/landing-card/landing-card.c
 import { LandingCard } from '../../../app/shared/models/landing-card';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { PostcodeLookupComponent } from '../../elements/postcode-lookup/postcode-lookup.component';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [LandingCardComponent, CommonModule, RouterLink],
+  imports: [
+    LandingCardComponent,
+    CommonModule,
+    RouterLink,
+    PostcodeLookupComponent,
+  ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
 })

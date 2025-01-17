@@ -13,72 +13,128 @@
 <main>
   <!-- Features Section -->
   <section class="features">
-    <h2 class="section-title">Why Choose Our Long Distance Service?</h2>
+    <h2 class="section-title">Why Go The Distance With Us?</h2>
     <div class="features-grid">
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Affordable Pricing" />
-        <h3>Affordable Pricing</h3>
-        <p>Get competitive rates for long-distance travel.</p>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/MUTCD_D9-6.svg/1200px-MUTCD_D9-6.svg.png"
+          alt="24/7 Availability"
+        />
+        <h3>Wheelchair Access</h3>
+        <p>We provide wheelchair access for those with disabilities.</p>
       </div>
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Comfortable Rides" />
-        <h3>Comfortable Rides</h3>
-        <p>Relax in our well-maintained, spacious vehicles.</p>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Car_icon_alone.png"
+          alt="Professional Drivers"
+        />
+        <h3>10% Discount</h3>
+        <p>
+          We are offering a 10% discount for journeys over 20 miles, as well as
+          competitive rates.
+        </p>
       </div>
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Experienced Drivers" />
-        <h3>Experienced Drivers</h3>
-        <p>Our professional drivers ensure a safe and reliable journey.</p>
+        <img
+          src="https://static.thenounproject.com/png/1568675-200.png"
+          alt="Friendly Service"
+        />
+        <h3>Friendly Service</h3>
+        <p>We provide friendly and personalised service to our customers.</p>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Calculator Section -->
-  <section class="pricing-calculator">
-    <h2 class="section-title">Calculate Your Trip Cost</h2>
-    <form class="calculator-form" (ngSubmit)="calculatePrice()">
+  <!-- Booking Section -->
+  <section class="booking" id="booking">
+    <h2 class="section-title">Book Your Transfer</h2>
+    <form class="booking-form" (submit)="calculateFare($event)">
+      <!-- Booking Fields -->
       <div class="form-group">
-        <label for="distance">Enter Distance (in km):</label>
+        <h3 class="form-title">Booking Details</h3>
+        <label for="name">Your Name</label>
+        <input id="name" type="text" placeholder="Your Name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input id="email" type="email" placeholder="Your Email" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" placeholder="Phone Number" required />
+      </div>
+      <div class="form-group">
+        <label for="pickup">Pickup Address/Location</label>
         <input
-          type="number"
+          id="pickup"
+          type="text"
+          placeholder="Pickup Address/Location"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="dropoff">Drop-off Address/Location</label>
+        <input
+          id="dropoff"
+          type="text"
+          placeholder="Drop-off Address/Location"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="pickupDateTime">Pickup Date/Time</label>
+        <input
+          id="pickupDateTime"
+          type="datetime-local"
+          [(ngModel)]="pickupDateTime"
+          name="pickupDateTime"
+          required
+          (change)="checkDateTime()"
+        />
+      </div>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Fare Estimation Fields -->
+      <div class="form-group">
+        <h3 class="form-title">Want to Estimate your Fare?</h3>
+        <label for="distance">Distance (in miles)</label>
+        <input
           id="distance"
+          type="number"
           [(ngModel)]="distance"
           name="distance"
+          placeholder="Distance (in miles)"
+          min="0.1"
+          step="0.1"
           required
-          placeholder="e.g., 100"
         />
       </div>
-      <div class="form-group">
-        <label for="price-per-km">Price per km (in $):</label>
-        <input
-          type="number"
-          id="price-per-km"
-          [(ngModel)]="pricePerKm"
-          name="pricePerKm"
-          required
-          placeholder="e.g., 0.75"
-        />
+      <button
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="!pickupDateTime"
+        (click)="calculateFare($event)"
+      >
+        Estimate Fare
+      </button>
+
+      <!-- Estimated Fare -->
+      <div *ngIf="fareEstimate !== null" class="fare-result">
+        <h3>
+          Estimated Fare:
+          <span *ngIf="originalFare !== fareEstimate" class="original-fare">
+            £{{ originalFare | number: "1.2-2" }}
+          </span>
+          <span class="discounted-fare"
+            >£{{ fareEstimate | number: "1.2-2" }}</span
+          >
+        </h3>
       </div>
-      <button type="submit" class="btn btn-primary">Calculate</button>
-    </form>
 
-    <div class="result" *ngIf="totalPrice !== null">
-      <h3>Estimated Price: ${{ totalPrice.toFixed(2) }}</h3>
-    </div>
-  </section>
-
-  <!-- Booking Form Section -->
-  <section class="booking" id="booking">
-    <h2 class="section-title">Book Your Long Distance Ride</h2>
-    <form class="booking-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <input type="tel" placeholder="Phone Number" required />
-      <input type="text" placeholder="Pickup Location" required />
-      <input type="text" placeholder="Drop-off Location" required />
-      <input type="datetime-local" required />
-      <textarea placeholder="Special Requests (optional)"></textarea>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Submit Booking</button>
     </form>
   </section>
 </main>

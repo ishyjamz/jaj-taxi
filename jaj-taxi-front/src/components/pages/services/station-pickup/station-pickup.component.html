@@ -1,98 +1,101 @@
 <header class="hero">
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1>Rugby Station Pickup Service</h1>
+    <h1>Rugby Station Pickup</h1>
     <p>
-      Convenient and reliable pickups from Rugby Station. Travel to your
-      destination in comfort and style.
+      Train cancelled or delayed? Don't worry, we've got you covered. We'll pick
+      you up from Rugby station, ensuring you get to your destination safely and
+      on time.
     </p>
-    <a href="#booking" class="btn btn-primary">Book Now</a>
+    <a (click)="scrollToBooking()" class="btn btn-primary"> Book Now </a>
   </div>
 </header>
 
 <main>
   <!-- Features Section -->
   <section class="features">
-    <h2 class="section-title">Why Choose Our Rugby Station Pickup Service?</h2>
+    <h2 class="section-title">Why Ride With Us?</h2>
     <div class="features-grid">
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Punctual Service" />
-        <h3>Punctual Service</h3>
-        <p>We ensure on-time pickups so you can stay on schedule.</p>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/MUTCD_D9-6.svg/1200px-MUTCD_D9-6.svg.png"
+          alt="24/7 Availability"
+        />
+        <h3>Wheelchair Access</h3>
+        <p>We provide wheelchair access for those with disabilities.</p>
       </div>
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Professional Drivers" />
-        <h3>Professional Drivers</h3>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Car_icon_alone.png"
+          alt="Professional Drivers"
+        />
+        <h3>Speedy and Punctual</h3>
         <p>
-          Our drivers are courteous and experienced, ensuring a pleasant
-          journey.
+          We value your time and pride ourselves on punctuality. Our drivers are
+          committed to getting you to your destination swiftly and on schedule.
         </p>
       </div>
       <div class="feature">
-        <img src="https://via.placeholder.com/100" alt="Comfortable Vehicles" />
-        <h3>Comfortable Vehicles</h3>
-        <p>Travel in well-maintained vehicles designed for your comfort.</p>
+        <img
+          src="https://static.thenounproject.com/png/1568675-200.png"
+          alt="Friendly Service"
+        />
+        <h3>Competitive Rates</h3>
+        <p>
+          Enjoy top-notch service at prices that won’t break the bank.
+          Transparency and value are at the core of our pricing.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Fare Calculator Section -->
-  <section class="fare-calculator">
-    <h2 class="section-title">Fare Calculator</h2>
-    <form (ngSubmit)="calculateFare()" class="calculator-form">
+  <!-- Booking Section -->
+  <section class="booking" id="booking" #bookingSection>
+    <h2 class="section-title">Book Your Ride</h2>
+    <form class="booking-form">
+      <!-- Booking Fields -->
       <div class="form-group">
-        <label for="tariff">Select Tariff:</label>
-        <select id="tariff" [(ngModel)]="tariff" name="tariff" required>
-          <option value="1">Tariff 1 (6am - Midnight)</option>
-          <option value="2">Tariff 2 (Midnight - 6am)</option>
-          <option value="3">Tariff 3 (Holidays & Christmas)</option>
-        </select>
+        <h3 class="form-title">Booking Details</h3>
+        <label for="name">Your Name</label>
+        <input id="name" type="text" placeholder="Your Name" required />
       </div>
       <div class="form-group">
-        <label for="distance">Enter Distance (in yards):</label>
+        <label for="email">Your Email</label>
+        <input id="email" type="email" placeholder="Your Email" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" placeholder="Phone Number" required />
+      </div>
+      <div class="form-group">
+        <label for="pickup">Pickup Address/Location</label>
         <input
-          type="number"
-          id="distance"
-          [(ngModel)]="distance"
-          name="distance"
-          placeholder="e.g., 500"
+          id="pickup"
+          type="text"
+          placeholder="Pickup Address/Location"
           required
         />
       </div>
       <div class="form-group">
-        <label for="waitingTime">Enter Waiting Time (in seconds):</label>
+        <label for="dropoff">Drop-off Address/Location</label>
         <input
-          type="number"
-          id="waitingTime"
-          [(ngModel)]="waitingTime"
-          name="waitingTime"
-          placeholder="e.g., 120"
+          id="dropoff"
+          type="text"
+          placeholder="Drop-off Address/Location"
+          required
         />
       </div>
-      <button type="submit" class="btn btn-primary">Calculate Fare</button>
-    </form>
-
-    <div class="result" *ngIf="calculatedFare !== null">
-      <h3>Estimated Fare: £{{ calculatedFare.toFixed(2) }}</h3>
-    </div>
-  </section>
-
-  <!-- Booking Form Section -->
-  <section class="booking" id="booking">
-    <h2 class="section-title">Book Your Rugby Station Pickup</h2>
-    <form class="booking-form">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <input type="tel" placeholder="Phone Number" required />
-      <input
-        type="text"
-        placeholder="Pickup Location (e.g., Rugby Station)"
-        required
-      />
-      <input type="text" placeholder="Destination Address" required />
-      <input type="datetime-local" required />
-      <textarea placeholder="Special Requests (optional)"></textarea>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="form-group">
+        <label for="pickupDateTime">Pickup Date/Time</label>
+        <input
+          id="pickupDateTime"
+          type="datetime-local"
+          name="pickupDateTime"
+          required
+        />
+      </div>
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Submit Booking</button>
     </form>
   </section>
 </main>

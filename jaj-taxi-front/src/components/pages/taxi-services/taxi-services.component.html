@@ -1,6 +1,9 @@
 <div class="head-container">
   <h1 class="title">Our Services</h1>
 </div>
+<div class="btn-container">
+  <a href="tel:+447570881964" class="button">Call and Book with us now</a>
+</div>
 <div class="body-container">
   <div class="text-container">
     <p class="text">
@@ -21,8 +24,5 @@
       *ngFor="let serviceCard of serviceCards"
       [serviceCard]="serviceCard"
     ></app-service-card>
-  </div>
-  <div class="btn-container">
-    <a routerLink="/contact" class="button">Book with us now!</a>
   </div>
 </div>
