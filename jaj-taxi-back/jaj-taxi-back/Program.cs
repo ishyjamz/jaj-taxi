@@ -1,9 +1,30 @@
+using jaj_taxi_back;
+using jaj_taxi_back.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<TaxiBookingDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.Configure<BusinessEmailSettings>(builder.Configuration.GetSection("BusinessEmail"));
+
+// Add CORS policy to allow requests from the frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // Replace with the actual frontend origin
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+// Add controllers and Swagger for API documentation
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -15,6 +36,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Enable CORS middleware
+app.UseCors("AllowFrontend");
+
+// Ensure compatibility for Npgsql timestamp behavior
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", false);
 
 app.UseHttpsRedirection();
 

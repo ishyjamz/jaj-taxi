@@ -1,6 +1,11 @@
-namespace jaj_taxi_back.Data;
+using jaj_taxi_back.Models;
+using Microsoft.EntityFrameworkCore;
 
-public class TaxiBookingDbContext
+public class TaxiBookingDbContext : DbContext
 {
+    public TaxiBookingDbContext(DbContextOptions<TaxiBookingDbContext> options) : base(options) { }
+
+    public DbSet<Booking> Bookings { get; set; }
     
+    public DbSet<AirportBooking> AirportBookings { get; set; }
 }

@@ -97,104 +97,83 @@
     </section>
 
     <!-- Booking Form Section -->
-    <section class="booking" id="booking" #bookingSection>
+    <section class="booking" id="booking">
       <h2 class="section-title">Book Your Transfer</h2>
-      <form action="#" method="post" class="booking-form">
-        <!-- Standard Booking Fields -->
-        <input type="text" placeholder="Your Name" name="name" required />
-        <input type="email" placeholder="Your Email" name="email" required />
-        <input type="tel" placeholder="Phone Number" name="phone" required />
+      <form
+        [formGroup]="bookingForm"
+        class="booking-form"
+        (ngSubmit)="onSubmit()"
+      >
         <input
           type="text"
-          placeholder="Pickup Address/Location"
-          name="pickup"
+          formControlName="name"
+          placeholder="Your Name"
           required
         />
-        <input type="text" placeholder="Airport Name" name="airport" required />
-        <label for="pickupDateTime">Pickup Date/Time:</label>
         <input
-          type="datetime-local"
-          placeholder="Pickup Date/Time"
-          name="pickupDateTime"
+          type="email"
+          formControlName="email"
+          placeholder="Your Email"
           required
         />
+        <input
+          type="tel"
+          formControlName="phoneNumber"
+          placeholder="Phone Number"
+          required
+        />
+        <input
+          type="text"
+          formControlName="pickupLocation"
+          placeholder="Pickup Address/Location"
+          required
+        />
+        <input
+          type="text"
+          formControlName="airportName"
+          placeholder="Airport Name"
+          required
+        />
+        <input type="date" formControlName="pickupDate" required />
+        <input type="time" formControlName="pickupTime" required />
         <textarea
+          formControlName="specialRequests"
           placeholder="Special Requests (optional)"
-          name="specialRequests"
         ></textarea>
 
-        <!-- Radio Buttons for Return Trip -->
         <div class="radio-group">
           <p>Is this a return trip?</p>
           <div class="radio-options">
             <label>
               <input
                 type="radio"
-                name="isReturnTrip"
-                [(ngModel)]="isReturnTrip"
                 [value]="true"
-                (change)="onReturnTripChange()"
+                formControlName="isReturnTrip"
               />
               Yes
             </label>
             <label>
               <input
                 type="radio"
-                name="isReturnTrip"
-                [(ngModel)]="isReturnTrip"
                 [value]="false"
-                (change)="onReturnTripChange()"
+                formControlName="isReturnTrip"
               />
               No
             </label>
           </div>
         </div>
 
-        <div *ngIf="isReturnTrip" class="return-trip-section">
-          <div class="radio-group">
-            <p>Is the return location the same as the pickup location?</p>
-            <div class="radio-options">
-              <label>
-                <input
-                  type="radio"
-                  name="isSameLocation"
-                  [(ngModel)]="isSameLocation"
-                  [value]="true"
-                  (change)="onSameLocationChange()"
-                />
-                Yes
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="isSameLocation"
-                  [(ngModel)]="isSameLocation"
-                  [value]="false"
-                  (change)="onSameLocationChange()"
-                />
-                No
-              </label>
-            </div>
-          </div>
-          <div *ngIf="!isSameLocation">
-            <input
-              type="text"
-              placeholder="Return Drop-off Location"
-              name="returnLocation"
-              required
-            />
-          </div>
-          <label for="returnDateTime">Return Date/Time:</label>
-          <input
-            type="datetime-local"
-            placeholder="Return Date/Time"
-            name="returnDateTime"
-            required
-          />
+        <div
+          *ngIf="bookingForm.get('isReturnTrip')?.value"
+          class="return-trip-section"
+        >
+          <label for="returnDate">Return Date:</label>
+          <input type="date" formControlName="returnDate" />
+          <label for="returnTime">Return Time:</label>
+          <input type="time" formControlName="returnTime" />
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit">Submit Booking</button>
       </form>
     </section>
   </main>
