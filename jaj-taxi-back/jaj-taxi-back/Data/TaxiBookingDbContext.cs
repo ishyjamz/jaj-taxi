@@ -1,4 +1,4 @@
-using jaj_taxi_back.Models;
+using jaj_taxi_back.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 public class TaxiBookingDbContext : DbContext

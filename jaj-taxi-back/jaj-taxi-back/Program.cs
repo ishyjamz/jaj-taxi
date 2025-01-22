@@ -1,6 +1,7 @@
 using jaj_taxi_back;
 using jaj_taxi_back.Services;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,11 @@ builder.Services.AddDbContext<TaxiBookingDbContext>(options =>
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IBookingService, BookingService>();
 builder.Services.Configure<BusinessEmailSettings>(builder.Configuration.GetSection("BusinessEmail"));
+
+// Register AutoMapper profile explicitly (if needed)
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add CORS policy to allow requests from the frontend
 builder.Services.AddCors(options =>

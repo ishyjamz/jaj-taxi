@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using jaj_taxi_back.Enums;
 
-namespace jaj_taxi_back.Models;
+namespace jaj_taxi_back.Models.Entities;
 
 public class Booking
 {
@@ -38,5 +39,7 @@ public class Booking
     
     [StringLength(250, ErrorMessage = "Cannot exceed 250 characters.")]
     public string SpecialRequests { get; set; }
+    
+    public Status Status { get; set; }
 
 }

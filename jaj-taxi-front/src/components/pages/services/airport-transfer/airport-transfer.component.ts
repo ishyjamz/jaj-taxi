@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BookingService } from '../../../../app/shared/services/booking.service';
 import { CommonModule } from '@angular/common';
 import { AirportBooking } from '../../../../app/shared/models/airport-booking.model';
+import { Status } from '../../../../app/shared/enums/status.enum';
 
 @Component({
   selector: 'app-airport-transfer',
@@ -34,34 +35,24 @@ export class AirportTransferComponent implements OnInit {
       pickupTime: ['', Validators.required],
       specialRequests: [''],
       isReturnTrip: [false],
-      returnDate: [''], // Optional
-      returnTime: [''],
+      returnDate: [null], // Optional
+      returnTime: [null], // Optional
+      status: [Status.PENDING],
     });
   }
 
   onReturnTripChange(): void {
     this.isReturnTrip = this.bookingForm.get('isReturnTrip')?.value;
     if (!this.isReturnTrip) {
-      this.bookingForm.get('returnDateTime')?.reset();
+      // Reset the return trip fields when it's a one-way trip
+      this.bookingForm.get('returnDate')?.reset();
+      this.bookingForm.get('returnTime')?.reset();
     }
   }
 
   onSubmit(): void {
     if (this.bookingForm.valid) {
       const formData = this.bookingForm.value;
-
-      // Combine pickup date and time into ISO format
-      const pickupDateTime = new Date(
-        `${formData.pickupDate}T${formData.pickupTime}`,
-      ).toISOString();
-
-      // Combine return date and time into ISO format if applicable
-      const returnDateTime =
-        formData.isReturnTrip && formData.returnDate && formData.returnTime
-          ? new Date(
-              `${formData.returnDate}T${formData.returnTime}`,
-            ).toISOString()
-          : null;
 
       // Prepare payload
       const payload: AirportBooking = {

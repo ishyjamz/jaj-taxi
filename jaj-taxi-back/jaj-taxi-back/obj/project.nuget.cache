@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "qtFjAvBzGgxMv8nnUoczDGMtk7Hm851IvCHBFL8MqTyC9bNfDvFTrGAgmZMxWkmIdF6QIBVM02G8U/f7UQvJzg==",
+  "dgSpecHash": "8CTEwPfrwvAjaPxCHrdNffpzwgYtn75UxMkth8IA3yEZyvl4NZqWmLn5LHJXDQKtlnj1OhgwG1PuX/OChFRA8A==",
   "success": true,
   "projectFilePath": "/Users/ishtiak/Documents/jaj-taxi/jaj-taxi-back/jaj-taxi-back/jaj-taxi-back.csproj",
   "expectedPackageFiles": [
+    "/Users/ishtiak/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/Users/ishtiak/.nuget/packages/bouncycastle.cryptography/2.5.0/bouncycastle.cryptography.2.5.0.nupkg.sha512",
     "/Users/ishtiak/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/ishtiak/.nuget/packages/mailkit/4.9.0/mailkit.4.9.0.nupkg.sha512",

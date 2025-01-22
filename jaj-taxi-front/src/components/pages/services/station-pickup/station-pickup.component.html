@@ -50,22 +50,44 @@
   </section>
 
   <!-- Booking Section -->
-  <section class="booking" id="booking" #bookingSection>
-    <h2 class="section-title">Book Your Ride</h2>
-    <form class="booking-form">
+  <section class="booking" id="booking">
+    <h2 class="section-title">Book Your Transfer</h2>
+    <form
+      class="booking-form"
+      [formGroup]="bookingForm"
+      (ngSubmit)="onSubmit()"
+    >
       <!-- Booking Fields -->
       <div class="form-group">
         <h3 class="form-title">Booking Details</h3>
         <label for="name">Your Name</label>
-        <input id="name" type="text" placeholder="Your Name" required />
+        <input
+          id="name"
+          type="text"
+          placeholder="Your Name"
+          formControlName="name"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="email">Your Email</label>
-        <input id="email" type="email" placeholder="Your Email" required />
+        <input
+          id="email"
+          type="email"
+          placeholder="Your Email"
+          formControlName="email"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="phone">Phone Number</label>
-        <input id="phone" type="tel" placeholder="Phone Number" required />
+        <input
+          id="phone"
+          type="tel"
+          placeholder="Phone Number"
+          formControlName="phone"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="pickup">Pickup Address/Location</label>
@@ -73,6 +95,7 @@
           id="pickup"
           type="text"
           placeholder="Pickup Address/Location"
+          formControlName="pickupLocation"
           required
         />
       </div>
@@ -82,20 +105,27 @@
           id="dropoff"
           type="text"
           placeholder="Drop-off Address/Location"
+          formControlName="dropOffLocation"
           required
         />
       </div>
       <div class="form-group">
-        <label for="pickupDateTime">Pickup Date/Time</label>
-        <input
-          id="pickupDateTime"
-          type="datetime-local"
-          name="pickupDateTime"
-          required
-        />
+        <label for="pickupDate">Date</label>
+        <input id="pickupDate" type="date" formControlName="date" required />
       </div>
+      <div class="form-group">
+        <label for="pickupTime">Time</label>
+        <input id="pickupTime" type="time" formControlName="time" required />
+      </div>
+
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary">Submit Booking</button>
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="bookingForm.invalid"
+      >
+        Submit Booking
+      </button>
     </form>
   </section>
 </main>

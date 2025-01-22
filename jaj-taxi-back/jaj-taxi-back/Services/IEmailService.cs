@@ -1,6 +1,13 @@
-namespace jaj_taxi_back.Services;
+using jaj_taxi_back.Models.Dtos;
 
-public interface IEmailService
+namespace jaj_taxi_back.Services
 {
-    Task SendEmailAsync(string recipientEmail, string subject, string body);
+    public interface IEmailService
+    {
+        // Method to send booking confirmation emails (both customer and business)
+        Task SendBookingConfirmationEmailAsync(BookingDto bookingDto);
+
+        // Method to send airport booking confirmation emails (both customer and business)
+        Task SendAirportBookingConfirmationEmailAsync(AirportBookingDto airportBookingDto);
+    }
 }

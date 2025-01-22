@@ -9,12 +9,14 @@ import { LongDistanceComponent } from '../../components/pages/services/long-dist
 import { AddressPickupComponent } from '../../components/pages/services/address-pickup/address-pickup.component';
 import { stat } from 'fs';
 import { StationPickupComponent } from '../../components/pages/services/station-pickup/station-pickup.component';
+import { BookingManagementComponent } from '../../components/pages/booking-management/booking-management.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route
   { path: 'home', component: LandingComponent },
   { path: 'services', component: TaxiServicesComponent },
   { path: 'contact', component: ContactUsComponent },
+  { path: 'manage-bookings', component: BookingManagementComponent },
   { path: 'services/airport-transfer', component: AirportTransferComponent },
   { path: 'services/long-distance', component: LongDistanceComponent },
   { path: 'services/address-pickup', component: AddressPickupComponent },
@@ -26,4 +28,3 @@ export const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-

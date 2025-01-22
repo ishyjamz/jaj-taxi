@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices.JavaScript;
 using jaj_taxi_back.Enums;
 
-namespace jaj_taxi_back.Models;
+namespace jaj_taxi_back.Models.Entities;
 
 public class AirportBooking
 {

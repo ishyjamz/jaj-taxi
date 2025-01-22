@@ -1,189 +1,312 @@
-using jaj_taxi_back.Models;
+using AutoMapper;
+using jaj_taxi_back.Models.Dtos;
+using jaj_taxi_back.Models.Entities;
 using jaj_taxi_back.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
-namespace jaj_taxi_back.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class BookingController : ControllerBase
+namespace jaj_taxi_back.Controllers
 {
-    private readonly IEmailService _emailService;
-    private readonly TaxiBookingDbContext _dbContext;
-    private readonly string _businessEmail;
-    private readonly ILogger<BookingController> _logger;
-
-    public BookingController(
-        IEmailService emailService,
-        TaxiBookingDbContext dbContext,
-        IOptions<BusinessEmailSettings> businessEmailSettings,
-        ILogger<BookingController> logger)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class BookingController : ControllerBase
     {
-        _emailService = emailService;
-        _dbContext = dbContext;
-        _businessEmail = businessEmailSettings.Value.Address;
-        _logger = logger;
-    }
+        private readonly ILogger<BookingController> _logger;
+        private readonly IBookingService _bookingService;
+        private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-    // General method to ensure DateTime values are in UTC
-    private DateTime EnsureUtc(DateTime dateTime)
-    {
-        if (dateTime.Kind == DateTimeKind.Unspecified)
+        public BookingController(
+            IBookingService bookingService,
+            IEmailService emailService,
+            IMapper mapper,
+            ILogger<BookingController> logger)
         {
-            return DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
-        }
-        return dateTime.Kind == DateTimeKind.Local ? dateTime.ToUniversalTime() : dateTime;
-    }
-
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateBooking([FromBody] Booking booking)
-    {
-        if (!ModelState.IsValid)
-        {
-            _logger.LogWarning("Invalid booking request received: {ModelState}", ModelState);
-            return BadRequest(ModelState);
+            _bookingService = bookingService;
+            _emailService = emailService;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        try
+        // General method to ensure DateTime values are in UTC
+        private DateTime EnsureUtc(DateTime dateTime)
         {
-            // Ensure DateTime is in UTC
-            booking.Date = EnsureUtc(booking.Date);
-
-            // Save the booking
-            _dbContext.Bookings.Add(booking);
-            await _dbContext.SaveChangesAsync();
-            _logger.LogInformation("Booking successfully saved to the database.");
-
-            // Send emails
-            await SendBookingEmails(booking);
-
-            return Ok(new { Message = "Booking successfully created.", BookingDetails = booking });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while processing the booking.");
-            return StatusCode(500, "An error occurred while processing your booking.");
-        }
-    }
-
-    [HttpPost("createAirport")]
-    public async Task<IActionResult> CreateAirportBooking([FromBody] AirportBooking booking)
-    {
-        if (!ModelState.IsValid)
-        {
-            _logger.LogWarning("Invalid airport booking request received: {ModelState}", ModelState);
-            return BadRequest(ModelState);
-        }
-
-        try
-        {
-            // Ensure DateTime values are in UTC
-            booking.PickupDate = EnsureUtc(booking.PickupDate);
-            if (booking.ReturnDate.HasValue)
+            if (dateTime.Kind == DateTimeKind.Unspecified)
             {
-                booking.ReturnDate = EnsureUtc(booking.ReturnDate.Value);
+                return DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
             }
 
-            // Save the booking
-            _dbContext.AirportBookings.Add(booking);
-            await _dbContext.SaveChangesAsync();
-            _logger.LogInformation("Airport booking successfully saved to the database.");
-
-            // Send emails
-            await SendAirportBookingEmails(booking);
-
-            return Ok(new { Message = "Airport booking successfully created.", BookingDetails = booking });
+            return dateTime.Kind == DateTimeKind.Local ? dateTime.ToUniversalTime() : dateTime;
         }
-        catch (Exception ex)
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateBooking([FromBody] BookingDto bookingDto)
         {
-            _logger.LogError(ex, "An error occurred while processing the airport booking.");
-            return StatusCode(500, "An error occurred while processing your airport booking.");
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Invalid booking request received: {ModelState}", ModelState);
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                bookingDto.Date = EnsureUtc(bookingDto.Date);
+
+                var booking = _mapper.Map<Booking>(bookingDto);
+                var success = await _bookingService.CreateBookingAsync(booking);
+
+                if (!success)
+                {
+                    _logger.LogWarning("Failed to save the booking to the database.");
+                    return StatusCode(500, "Failed to save the booking.");
+                }
+
+                _logger.LogInformation("Booking successfully saved to the database.");
+
+                // Send the booking confirmation emails (business and customer)
+                await _emailService.SendBookingConfirmationEmailAsync(bookingDto);
+
+                return Ok(new
+                {
+                    Message = "Booking successfully created and email sent to the business.", BookingDetails = booking
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing the booking.");
+                return StatusCode(500, "An unexpected error occurred while processing your booking.");
+            }
         }
-    }
 
-    // Helper method to send emails for general bookings
-    private async Task SendBookingEmails(Booking booking)
-    {
-        string customerEmailBody = GetCustomerEmailBody(booking);
-        string businessEmailBody = GetBusinessEmailBody(booking);
+        [HttpPost("createAirport")]
+        public async Task<IActionResult> CreateAirportBooking([FromBody] AirportBookingDto airportBookingDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Invalid airport booking request received: {ModelState}", ModelState);
+                return BadRequest(ModelState);
+            }
 
-        await _emailService.SendEmailAsync(booking.Email, "Booking Confirmation", customerEmailBody);
-        await _emailService.SendEmailAsync(_businessEmail, "New Booking Alert", businessEmailBody);
-        _logger.LogInformation("Emails successfully sent for booking.");
-    }
+            try
+            {
+                airportBookingDto.PickupDate = EnsureUtc(airportBookingDto.PickupDate);
+                if (airportBookingDto.ReturnDate.HasValue)
+                {
+                    airportBookingDto.ReturnDate = EnsureUtc(airportBookingDto.ReturnDate.Value);
+                }
 
-    // Helper method to send emails for airport bookings
-    private async Task SendAirportBookingEmails(AirportBooking booking)
-    {
-        string customerEmailBody = GetCustomerEmailBody(booking);
-        string businessEmailBody = GetBusinessEmailBody(booking);
+                var airportBooking = _mapper.Map<AirportBooking>(airportBookingDto);
+                var success = await _bookingService.CreateAirportBookingAsync(airportBooking);
 
-        await _emailService.SendEmailAsync(booking.Email, "Airport Booking Confirmation", customerEmailBody);
-        await _emailService.SendEmailAsync(_businessEmail, "New Airport Booking Alert", businessEmailBody);
-        _logger.LogInformation("Emails successfully sent for airport booking.");
-    }
+                if (!success)
+                {
+                    _logger.LogWarning("Failed to save the airport booking to the database.");
+                    return StatusCode(500, "Failed to save the airport booking.");
+                }
 
-    private string GetCustomerEmailBody(Booking booking) => $@"
-        <h2>Booking Confirmation</h2>
-        <p>Dear {booking.Name},</p>
-        <p>Thank you for your booking with us. Here are the details of your booking:</p>
-        <p>Your booking is confirmed for {booking.Date:yyyy-MM-dd} at {booking.Time}.</p>
-        <p>Pickup: {booking.PickupLocation}</p>
-        <p>Drop-off: {booking.DropOffLocation}</p>
-        <p>Kind regards,<br/>Jaj Taxi Team</p>";
+                _logger.LogInformation("Airport booking successfully saved to the database.");
 
-    private string GetBusinessEmailBody(Booking booking) => $@"
-        <h1>New Booking Alert</h1>
-        <p>A new booking has been made:</p>
-        <ul>
-            <li>Name: {booking.Name}</li>
-            <li>Email: {booking.Email}</li>
-            <li>Pickup: {booking.PickupLocation}</li>
-            <li>Drop-off: {booking.DropOffLocation}</li>
-            <li>Date: {booking.Date:yyyy-MM-dd}</li>
-            <li>Time: {booking.Time}</li>
-        </ul>";
+                // Send the airport booking confirmation emails (business and customer)
+                await _emailService.SendAirportBookingConfirmationEmailAsync(airportBookingDto);
 
-    private string GetCustomerEmailBody([FromBody] AirportBooking booking)
-    {
-        // Ensure return details are handled safely
-        string returnDetails = booking.IsReturnTrip && booking.ReturnDate.HasValue && booking.ReturnTime != String.Empty
-            ? $"<p>Returning on {booking.ReturnDate:yyyy-MM-dd} at {booking.ReturnTime}</p>"
-            : string.Empty;
+                return Ok(new
+                {
+                    Message = "Airport booking successfully created and email sent to the business.",
+                    BookingDetails = airportBooking
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing the airport booking.");
+                return StatusCode(500, "An error occurred while processing your airport booking.");
+            }
+        }
 
-        // Safely format PickupTime
-        return $@"
-        <h2>Airport Booking Confirmation</h2>
-        <p>Dear {booking.Name},</p>
-        <p>Thank you for your booking with us. Here are the details:</p>
-        <p>Pickup Date: {booking.PickupDate:yyyy-MM-dd} at {booking.PickupTime}</p>
-        <p>Pickup Location: {booking.PickupLocation}</p>
-        <p>Destination: {booking.AirportName}</p>
-        {returnDetails}
-        <p>Kind regards,<br/>Jaj Taxi Team</p>";
-    }
+        [HttpGet("get")]
+        public async Task<IActionResult> GetBookings()
+        {
+            try
+            {
+                var bookings = await _bookingService.GetBookingsAsync();
+                return Ok(bookings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving bookings.");
+                return StatusCode(500, "An error occurred while retrieving bookings.");
+            }
+        }
 
+        [HttpGet("getAirport")]
+        public async Task<IActionResult> GetAirportBookings()
+        {
+            try
+            {
+                var bookings = await _bookingService.GetAirportBookingsAsync();
+                return Ok(bookings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving airport bookings.");
+                return StatusCode(500, "An error occurred while retrieving airport bookings.");
+            }
+        }
 
-    private string GetBusinessEmailBody([FromBody] AirportBooking booking)
-    {
-        string returnDetails = booking.IsReturnTrip && booking.ReturnDate.HasValue && booking.ReturnTime != string.Empty
-            ? $@"
-            <li>Return Date: {booking.ReturnDate:yyyy-MM-dd}</li>
-            <li>Return Time: {booking.ReturnTime}</li>"
-            : "<li>No return trip</li>";
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> GetBooking(int id)
+        {
+            try
+            {
+                var booking = await _bookingService.GetBookingByIdAsync(id);
+                if (booking == null)
+                {
+                    return NotFound($"Booking with ID {id} not found.");
+                }
 
-        return $@"
-        <h1>New Airport Booking Alert</h1>
-        <p>A new booking has been made:</p>
-        <ul>
-            <li>Name: {booking.Name}</li>
-            <li>Email: {booking.Email}</li>
-            <li>Pickup: {booking.PickupLocation}</li>
-            <li>Airport: {booking.AirportName}</li>
-            <li>Pickup Date: {booking.PickupDate:yyyy-MM-dd}</li>
-            <li>Pickup Time: {booking.PickupTime}</li>
-            {returnDetails}
-        </ul>";
+                return Ok(booking);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving booking.");
+                return StatusCode(500, "An error occurred while retrieving booking.");
+            }
+        }
+
+        [HttpGet("getAirport/{id}")]
+        public async Task<IActionResult> GetAirportBooking(int id)
+        {
+            try
+            {
+                var booking = await _bookingService.GetAirportBookingByIdAsync(id);
+                if (booking == null)
+                {
+                    return NotFound($"Airport booking with ID {id} not found.");
+                }
+
+                return Ok(booking);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving airport booking.");
+                return StatusCode(500, "An error occurred while retrieving airport booking.");
+            }
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingDto bookingDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Invalid booking update request received: {ModelState}", ModelState);
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                bookingDto.Date = EnsureUtc(bookingDto.Date);
+
+                var booking = _mapper.Map<Booking>(bookingDto);
+                booking.Id = id; // Ensure the ID is set for updating
+                var success = await _bookingService.UpdateBookingAsync(booking);
+
+                if (!success)
+                {
+                    _logger.LogWarning("Failed to update the booking in the database.");
+                    return StatusCode(500, "Failed to update the booking.");
+                }
+
+                _logger.LogInformation("Booking successfully updated in the database.");
+                return Ok(new { Message = "Booking successfully updated.", BookingDetails = booking });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the booking.");
+                return StatusCode(500, "An error occurred while updating the booking.");
+            }
+        }
+
+        [HttpPut("updateAirport/{id}")]
+        public async Task<IActionResult> UpdateAirportBooking(int id, [FromBody] AirportBookingDto bookingDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Invalid booking update request received: {ModelState}", ModelState);
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                bookingDto.PickupDate = EnsureUtc(bookingDto.PickupDate);
+
+                if (bookingDto.IsReturnTrip)
+                    bookingDto.ReturnDate = EnsureUtc(bookingDto.ReturnDate.Value);
+
+                var booking = _mapper.Map<AirportBooking>(bookingDto);
+                booking.Id = id; // Ensure the ID is set for updating
+                var success = await _bookingService.UpdateAirportBookingAsync(booking);
+
+                if (!success)
+                {
+                    _logger.LogWarning("Failed to update the booking in the database.");
+                    return StatusCode(500, "Failed to update the booking.");
+                }
+
+                _logger.LogInformation("Booking successfully updated in the database.");
+                return Ok(new { Message = "Booking successfully updated.", BookingDetails = booking });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the booking.");
+                return StatusCode(500, "An error occurred while updating the booking.");
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteBooking(int id)
+        {
+            try
+            {
+                // Attempt to delete the booking
+                var success = await _bookingService.DeleteBookingAsync(id);
+
+                if (!success)
+                {
+                    _logger.LogWarning("Booking with ID {Id} not found or could not be deleted.", id);
+                    return NotFound(new { Message = $"Booking with ID {id} not found or could not be deleted." });
+                }
+
+                _logger.LogInformation("Booking with ID {Id} successfully deleted.", id);
+                return Ok(new { Message = "Booking successfully deleted." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting the booking with ID {Id}.", id);
+                return StatusCode(500, new { Message = "An unexpected error occurred while deleting the booking." });
+            }
+        }
+
+        [HttpDelete("deleteAirport/{id}")]
+        public async Task<IActionResult> DeleteAirportBooking(int id)
+        {
+            try
+            {
+                // Attempt to delete the booking
+                var success = await _bookingService.DeleteAirportBookingAsync(id);
+
+                if (!success)
+                {
+                    _logger.LogWarning("Booking with ID {Id} not found or could not be deleted.", id);
+                    return NotFound(new { Message = $"Booking with ID {id} not found or could not be deleted." });
+                }
+
+                _logger.LogInformation("Booking with ID {Id} successfully deleted.", id);
+                return Ok(new { Message = "Booking successfully deleted." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting the booking with ID {Id}.", id);
+                return StatusCode(500, new { Message = "An unexpected error occurred while deleting the booking." });
+            }
+        }
     }
 }

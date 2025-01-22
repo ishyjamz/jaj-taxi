@@ -1,4 +1,7 @@
+import { Status } from '../enums/status.enum';
+
 export interface AirportBooking {
+  id?: number;
   name: string;
   email: string;
   phoneNumber: string;
@@ -10,4 +13,5 @@ export interface AirportBooking {
   isReturnTrip: boolean;
   returnDate?: string | null; // Use ISO 8601 format (e.g., "2025-01-18")
   returnTime?: string | null; // Use "HH:mm" format (e.g., "10:30")
+  status: Status;
 }

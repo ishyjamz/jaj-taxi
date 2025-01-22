@@ -1,0 +1,180 @@
+<div class="head-container">
+  <div class="title">
+    <h1>Booking Management</h1>
+    <p>
+      View and manage your bookings for local, long-distance, and airport
+      services.
+    </p>
+  </div>
+</div>
+
+<div class="body-container">
+  <!-- Airport Bookings Table -->
+  <div class="booking-table">
+    <h2>Airport Bookings</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Pickup Address</th>
+          <th>Drop-off Address</th>
+          <th>Departure Date / Time</th>
+          <th>Return Trip?</th>
+          <th>Arrival Date / Time</th>
+          <th>Special Requests</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let airportBooking of airportBookings">
+          <td>{{ airportBooking.id }}</td>
+          <td>{{ airportBooking.name }}</td>
+          <td>{{ airportBooking.email }}</td>
+          <td>{{ airportBooking.phoneNumber }}</td>
+          <td>{{ airportBooking.pickupLocation }}</td>
+          <td>{{ airportBooking.airportName }}</td>
+          <td>
+            {{ airportBooking.pickupDate }} at {{ airportBooking.pickupTime }}
+          </td>
+          <td>{{ airportBooking.isReturnTrip }}</td>
+          <td>
+            <ng-container *ngIf="airportBooking.isReturnTrip; else noReturn">
+              {{ airportBooking.returnDate }} at {{ airportBooking.returnTime }}
+            </ng-container>
+            <ng-template #noReturn>N/A</ng-template>
+          </td>
+          <td>{{ airportBooking.specialRequests || "None" }}</td>
+          <td>{{ getStatusText(airportBooking.status) }}</td>
+          <td>
+            <!-- Show Accept button if status is PENDING -->
+            <button
+              class="accept-button"
+              *ngIf="airportBooking.status === 0"
+              (click)="
+                openConfirmationModal('accept', airportBooking.id ?? 0, true)
+              "
+            >
+              Accept
+            </button>
+
+            <!-- Show Decline button if status is PENDING -->
+            <button
+              class="decline-button"
+              *ngIf="airportBooking.status === 0"
+              (click)="
+                openConfirmationModal('decline', airportBooking.id ?? 0, true)
+              "
+            >
+              Decline
+            </button>
+
+            <!-- Show Completed button if status is ACCEPTED -->
+            <button
+              class="accept-button"
+              *ngIf="airportBooking.status === 1"
+              (click)="completeAirportBooking(airportBooking.id)"
+            >
+              Complete
+            </button>
+            <button
+              class="complete-button"
+              *ngIf="airportBooking.status === 3"
+              disabled
+            >
+              Completed
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!airportBookings.length">
+          <td colspan="11">No airport bookings available.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Local and Long Distance Bookings Table -->
+  <div class="booking-table">
+    <h2>Local and Long Distance Bookings</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Pickup Address</th>
+          <th>Drop-off Address</th>
+          <th>Date / Time</th>
+          <th>Special Requests</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td>{{ booking.id }}</td>
+          <td>{{ booking.name }}</td>
+          <td>{{ booking.email }}</td>
+          <td>{{ booking.phoneNumber }}</td>
+          <td>{{ booking.pickupLocation }}</td>
+          <td>{{ booking.dropOffLocation }}</td>
+          <td>{{ booking.date }} at {{ booking.time }}</td>
+          <td>{{ booking.specialRequests || "None" }}</td>
+          <td>{{ getStatusText(booking.status) }}</td>
+          <td>
+            <!-- Show Accept button if status is PENDING -->
+            <button
+              class="accept-button"
+              *ngIf="booking.status === 0"
+              (click)="openConfirmationModal('accept', booking.id ?? 0, false)"
+            >
+              Accept
+            </button>
+
+            <!-- Show Decline button if status is PENDING -->
+            <button
+              class="decline-button"
+              *ngIf="booking.status === 0"
+              (click)="openConfirmationModal('decline', booking.id ?? 0, false)"
+            >
+              Decline
+            </button>
+
+            <!-- Show Completed button if status is ACCEPTED -->
+            <button
+              class="accept-button"
+              *ngIf="booking.status === 1"
+              (click)="completeBooking(booking.id)"
+            >
+              Complete
+            </button>
+            <button
+              class="complete-button"
+              *ngIf="booking.status === 3"
+              disabled
+            >
+              Completed
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!bookings.length">
+          <td colspan="10">No bookings available.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <app-confirm-modal
+    *ngIf="showModal && !isAirportModal"
+    (confirm)="onModalConfirm($event)"
+    [message]="modalMessage"
+  ></app-confirm-modal>
+  <app-confirm-modal
+    *ngIf="showModal && isAirportModal"
+    (confirm)="onAirportModalConfirm($event)"
+    [message]="modalMessage"
+  ></app-confirm-modal>
+</div>
