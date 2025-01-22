@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices.JavaScript;
+using jaj_taxi_back.Enums;
 
 namespace jaj_taxi_back.Models;
 
@@ -40,5 +41,7 @@ public class AirportBooking
     
     [RegularExpression(@"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$", ErrorMessage = "Invalid time format (HH:mm).")]
     public string? ReturnTime { get; set; }
+    
+    public Status Status { get; set; }
     
 }
