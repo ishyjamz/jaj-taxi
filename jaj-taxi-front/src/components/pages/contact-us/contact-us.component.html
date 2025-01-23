@@ -7,14 +7,18 @@
   <div class="contact-content">
     <!-- Contact Form Section -->
     <div class="contact-form-section">
-      <form class="contact-form">
+      <form
+        class="contact-form"
+        [formGroup]="contactUsForm"
+        (ngSubmit)="onSubmit()"
+      >
         <div class="form-group">
           <label for="name"> <i class="fas fa-user"></i> Your Name </label>
           <input
-            type="text"
             id="name"
-            name="name"
+            type="text"
             placeholder="Enter your full name"
+            formControlName="name"
             required
           />
         </div>
@@ -23,10 +27,10 @@
             <i class="fas fa-envelope"></i> Your Email
           </label>
           <input
-            type="email"
             id="email"
-            name="email"
+            type="email"
             placeholder="Enter your email address"
+            formControlName="email"
             required
           />
         </div>
@@ -36,27 +40,35 @@
           </label>
           <textarea
             id="message"
-            name="message"
             rows="5"
-            placeholder="Enter your message here"
+            placeholder="Write your message here"
+            formControlName="message"
             required
           ></textarea>
         </div>
-        <button type="submit" class="submit-button">Send Message</button>
+        <button
+          type="submit"
+          class="btn-primary"
+          [disabled]="contactUsForm.invalid"
+        >
+          Submit
+        </button>
       </form>
     </div>
 
     <!-- Contact Information Section -->
     <div class="contact-info">
       <div class="info-item">
-        <i class="fas fa-phone-alt"></i>
+        <i class="fas fa-phone"></i>
         <h3>Phone</h3>
         <p><a href="tel:+447570881964">+44 7570 881964</a></p>
       </div>
       <div class="info-item">
         <i class="fas fa-envelope"></i>
         <h3>Email</h3>
-        <p><a href="mailto:info@jajtaxi.co.uk">infojajtaxi.co.uk</a></p>
+        <p>
+          <a href="mailto:jajtaxirugby@gmail.com">jajtaxirugby&#64;gmail.com</a>
+        </p>
       </div>
       <div class="info-item">
         <i class="fas fa-map-marker-alt"></i>

@@ -1,4 +1,5 @@
 using jaj_taxi_back.Models.Dtos;
+using jaj_taxi_back.Models.Entities;
 
 namespace jaj_taxi_back.Services
 {
@@ -15,5 +16,7 @@ namespace jaj_taxi_back.Services
 
         // Method to send airport booking status update emails to customer
         Task SendBookingStatusUpdateEmailAsync(AirportBookingDto airportBookingDto);
+        
+        Task SendContactUsEmailAsync(ContactUs contactUs);
     }
 }

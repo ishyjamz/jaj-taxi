@@ -1,7 +1,12 @@
+using System.Text;
 using jaj_taxi_back;
 using jaj_taxi_back.Services;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using jaj_taxi_back.Helper;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +18,24 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IBookingService, BookingService>();
 builder.Services.Configure<BusinessEmailSettings>(builder.Configuration.GetSection("BusinessEmail"));
+builder.Services.AddScoped<GoogleAuthService>();
+builder.Services.AddSingleton<JwtTokenGenerator>();
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
+        };
+    });
+
 
 // Register AutoMapper profile explicitly (if needed)
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

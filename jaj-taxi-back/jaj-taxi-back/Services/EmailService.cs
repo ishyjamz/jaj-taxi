@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using jaj_taxi_back.Enums;
 using jaj_taxi_back.Models.Dtos;
+using jaj_taxi_back.Models.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -46,7 +47,8 @@ namespace jaj_taxi_back.Services
             var client = new SmtpClient();
             try
             {
-                await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
+                await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.Port,
+                    MailKit.Security.SecureSocketOptions.StartTls);
                 await client.AuthenticateAsync(_emailSettings.SenderEmail, _emailSettings.Password);
 
                 // Send to customer
@@ -73,7 +75,11 @@ namespace jaj_taxi_back.Services
                 From = { new MailboxAddress(_emailSettings.SenderName, _emailSettings.SenderEmail) },
                 To = { MailboxAddress.Parse(recipient) },
                 Subject = subject,
-                Body = new BodyBuilder { HtmlBody = body, TextBody = "This email contains HTML content. Please view it in an HTML-compatible email client." }.ToMessageBody()
+                Body = new BodyBuilder
+                {
+                    HtmlBody = body,
+                    TextBody = "This email contains HTML content. Please view it in an HTML-compatible email client."
+                }.ToMessageBody()
             };
             await client.SendAsync(emailMessage);
         }
@@ -138,7 +144,8 @@ namespace jaj_taxi_back.Services
         // Method to get return trip details
         private string GetReturnDetails(AirportBookingDto airportBookingDto)
         {
-            if (!airportBookingDto.IsReturnTrip || airportBookingDto.ReturnDate == null || string.IsNullOrEmpty(airportBookingDto.ReturnTime))
+            if (!airportBookingDto.IsReturnTrip || airportBookingDto.ReturnDate == null ||
+                string.IsNullOrEmpty(airportBookingDto.ReturnTime))
                 return "<p>No return trip details provided.</p>";
 
             return $@"
@@ -161,7 +168,7 @@ namespace jaj_taxi_back.Services
 
             await SendEmailsAsync(bookingDto.Email, customerEmailBody, businessEmailBody);
         }
-        
+
         public async Task SendBookingStatusUpdateEmailAsync(AirportBookingDto airportBookingDto)
         {
             if (airportBookingDto.Status == Status.Accepted || airportBookingDto.Status == Status.Declined)
@@ -177,6 +184,14 @@ namespace jaj_taxi_back.Services
 
                 await SendEmailsAsync(airportBookingDto.Email, customerEmailBody, businessEmailBody);
             }
+        }
+
+        public async Task SendContactUsEmailAsync(ContactUs contactUs)
+        {
+            var customerEmailBody = GetContactUsEmailBodyForCustomer(contactUs);
+            var businessEmailBody = GetContactUsEmailBodyForBusiness(contactUs);
+
+            await SendEmailsAsync(contactUs.Email, customerEmailBody, businessEmailBody);
         }
 
         // Helper method to create status update email body for customer
@@ -202,7 +217,7 @@ namespace jaj_taxi_back.Services
                 <li>Date: {bookingDto.Date:yyyy-MM-dd}</li>
                 <li>Time: {bookingDto.Time}</li>
             </ul>";
-        
+
         private string GetStatusUpdateEmailBody(AirportBookingDto airportBookingDto, string statusMessage) => $@"
             <h2>Booking Status Update</h2>
             <p>Dear {airportBookingDto.Name},</p>
@@ -215,7 +230,8 @@ namespace jaj_taxi_back.Services
             <p>Thank you for choosing JAJ Taxi!</p>";
 
         // Helper method to create status update email body for business
-        private string GetStatusUpdateEmailBodyForBusiness(AirportBookingDto airportBookingDto, string statusMessage) => $@"
+        private string GetStatusUpdateEmailBodyForBusiness(AirportBookingDto airportBookingDto, string statusMessage) =>
+            $@"
             <h1>Booking Status Update</h1>
             <p>{statusMessage}</p>
             <ul>
@@ -226,6 +242,29 @@ namespace jaj_taxi_back.Services
                 <li>Date: {airportBookingDto.PickupDate:yyyy-MM-dd}</li>
                 <li>Time: {airportBookingDto.PickupTime}</li>
                 <li>{GetReturnDetails(airportBookingDto)}</li>
+            </ul>";
+
+        // Helper method to create status update email body for customer
+        private string GetContactUsEmailBodyForCustomer(ContactUs contactUs) => $@"
+            <h2>Message Received</h2>
+            <p>Dear {contactUs.Name},</p>
+            <p>We are sending this email to confirm receipt of your query. We will get back to you as soon as possible.</p>
+            <p>Here are the details of your query:</p>
+            <ul>
+                <li> Name: {contactUs.Name}</li>
+                <li> Email: {contactUs.Email}</li>
+                <li> Message: {contactUs.Message}</li>
+            </ul>
+            <p>Best regards,<br>Team JAJ Taxi</>";
+
+        private string GetContactUsEmailBodyForBusiness(ContactUs contactUs) => $@"
+            <h2>Customer Query Received:</h2>
+            <p>You have received a new message from {contactUs.Name}</p>
+            <p>Details:</p>
+            <ul>
+                <li> Name: {contactUs.Name}</li>
+                <li> Email: {contactUs.Email}</li>
+                <li> Message: {contactUs.Message}</li>
             </ul>";
     }
 }
