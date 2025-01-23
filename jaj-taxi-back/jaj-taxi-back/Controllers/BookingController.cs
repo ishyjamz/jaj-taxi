@@ -215,8 +215,10 @@ namespace jaj_taxi_back.Controllers
                     return StatusCode(500, "Failed to update the booking.");
                 }
 
-                _logger.LogInformation("Booking successfully updated in the database.");
-                return Ok(new { Message = "Booking successfully updated.", BookingDetails = booking });
+                // Send the email to the customer informing them about the booking status change
+                await _emailService.SendBookingStatusUpdateEmailAsync(bookingDto);
+
+                return Ok(new { Message = $"Airport booking status successfully updated to {bookingDto.Status.ToString()}." });
             }
             catch (Exception ex)
             {
@@ -250,9 +252,12 @@ namespace jaj_taxi_back.Controllers
                     _logger.LogWarning("Failed to update the booking in the database.");
                     return StatusCode(500, "Failed to update the booking.");
                 }
+                
+                // Send the email to the customer informing them about the booking status change
+                await _emailService.SendBookingStatusUpdateEmailAsync(bookingDto);
 
-                _logger.LogInformation("Booking successfully updated in the database.");
-                return Ok(new { Message = "Booking successfully updated.", BookingDetails = booking });
+                return Ok(new { Message = $"Airport booking status successfully updated to {bookingDto.Status.ToString()}." });
+                
             }
             catch (Exception ex)
             {

@@ -40,7 +40,7 @@ export class LongDistanceComponent implements OnInit {
       time: ['', Validators.required],
       specialRequests: [''],
       status: [Status.PENDING],
-      distance: [0],
+      distance: [null],
     });
   }
 

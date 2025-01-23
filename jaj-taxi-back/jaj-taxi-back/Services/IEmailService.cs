@@ -9,5 +9,11 @@ namespace jaj_taxi_back.Services
 
         // Method to send airport booking confirmation emails (both customer and business)
         Task SendAirportBookingConfirmationEmailAsync(AirportBookingDto airportBookingDto);
+
+        // Method to send booking status update emails to customer
+        Task SendBookingStatusUpdateEmailAsync(BookingDto bookingDto);
+
+        // Method to send airport booking status update emails to customer
+        Task SendBookingStatusUpdateEmailAsync(AirportBookingDto airportBookingDto);
     }
 }
