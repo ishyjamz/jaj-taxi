@@ -43,12 +43,14 @@ export class BookingManagementComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      const accessKey = prompt('Enter Access Key:');
-      if (accessKey !== 'sheema25Aa##') {
-        alert('Access denied!');
-        this.router.navigate(['/']);
-      } else {
-        console.log('Access granted.');
+      if (typeof window !== 'undefined') {
+        const accessKey = prompt('Enter Access Key:');
+        if (accessKey !== 'sheema25Aa##') {
+          alert('Access denied!');
+          this.router.navigate(['/']);
+        } else {
+          console.log('Access granted.');
+        }
       }
     } catch (error) {
       console.error('An error occurred while showing the prompt:', error);
