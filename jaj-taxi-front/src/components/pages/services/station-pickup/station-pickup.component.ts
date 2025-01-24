@@ -83,9 +83,9 @@ export class StationPickupComponent {
   }
 
   scrollToBooking(): void {
-    this.bookingSection.nativeElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
+    const bookingSection = document.querySelector('#booking');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

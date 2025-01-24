@@ -11,40 +11,6 @@ body {
   color: #333;
 }
 
-// Buttons
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  text-align: center;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-
-  &.btn-primary {
-    background: #0066cc;
-    color: white;
-
-    &:hover {
-      background: #005bb5;
-      transform: scale(1.05);
-      cursor: pointer;
-    }
-  }
-
-  &.btn-secondary {
-    background: #f4a261;
-    color: white;
-
-    &:hover {
-      background: #e68a3a;
-      transform: scale(1.05);
-    }
-  }
-}
-
 // Hero Section
 .hero {
   position: relative;
@@ -80,12 +46,12 @@ body {
     text-align: center;
     max-width: 800px;
     z-index: 3; // Ensures content appears above the blur and overlay
+    animation: fadeIn 1s ease-in-out;
 
     h1 {
       font-size: 2.5rem;
       margin-bottom: 15px;
       line-height: 1.2;
-      animation: fadeIn 1s ease-in-out;
     }
 
     p {
@@ -93,20 +59,22 @@ body {
       margin-bottom: 20px;
     }
 
-    a.btn-primary {
+    .btn-primary {
       padding: 12px 25px;
       font-size: 1rem;
       font-weight: bold;
       text-decoration: none;
-      color: white;
-      background-color: #0066cc;
+      color: var(--secondary-color);
+      cursor: pointer;
+      background-color: var(--primary-color);
       border-radius: 5px;
       transition:
         background-color 0.3s ease,
         transform 0.2s ease;
 
       &:hover {
-        background-color: #005bb5;
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
         transform: translateY(-2px);
       }
     }
@@ -182,8 +150,8 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     thead {
-      background-color: #007bff;
-      color: #fff;
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
 
       th {
         padding: 1rem;
@@ -206,8 +174,9 @@ body {
 
         td {
           padding: 1rem;
-          font-size: 1rem;
-          color: #555;
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: var(--text-color);
           text-align: left;
 
           &.price {
@@ -218,27 +187,6 @@ body {
             background-color: #fff7e6; // Light background for the price cell
             border-radius: 5px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); // Subtle shadow for emphasis
-          }
-
-          .btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            text-decoration: none;
-            color: #fff;
-            background-color: #ff7f50;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition:
-              background-color 0.3s ease,
-              transform 0.2s ease;
-
-            &:hover {
-              background-color: #e0673c;
-              transform: translateY(-2px);
-            }
           }
         }
       }
@@ -324,19 +272,20 @@ body {
       padding: 14px;
       font-size: 16px;
       font-weight: bold;
-      background-color: #007bff;
-      color: white;
+      background-color: #28a745;
+      color: var(--background-color);
       border: none;
       border-radius: 8px;
       cursor: pointer;
       width: 100%;
 
       &:hover {
-        background-color: #0056b3;
+        background-color: #1e7e34;
+        transition: background-color 0.3s ease;
       }
 
       &:active {
-        background-color: #003d80;
+        background-color: var(--secondary-color);
       }
     }
   }
@@ -347,14 +296,6 @@ body {
     margin-bottom: 20px;
     color: #333;
   }
-}
-
-// Footer
-footer {
-  text-align: center;
-  padding: 20px;
-  background: #333;
-  color: white;
 }
 
 // Animations

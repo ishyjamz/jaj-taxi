@@ -1,37 +1,53 @@
 <!-- Hero Section -->
-<section class="hero">
+<header class="hero">
+  <div class="hero-overlay"></div>
+
   <div class="hero-content">
-    <h1>Plan Your Journey with Ease</h1>
-    <p>Reliable and affordable transfers at your fingertips.</p>
-    <a href="#booking" class="btn-primary">Book Now</a>
+    <h1>Long Distance Service</h1>
+    <p>
+      Enjoy Comfortable, Stress-Free Long-Distance Rides with JAJ Taxi Rugby –
+      Whether You're Heading to a Nearby City or Going on a Business Trip, We
+      Provide Reliable, Professional, and Safe Transportation Tailored to Your
+      Needs.
+    </p>
+    <a (click)="scrollToBooking()" class="btn btn-primary"> Book Now </a>
   </div>
-</section>
+</header>
 
 <!-- Features Section -->
 <section class="features">
   <h2 class="section-title">Why Choose Us?</h2>
   <div class="features-grid">
     <div class="feature">
-      <img src="assets/icons/reliability.svg" alt="Reliability" />
+      <img
+        src="https://static.thenounproject.com/png/3777058-200.png"
+        alt="Reliability"
+      />
       <h3>Reliable Service</h3>
       <p>We ensure timely and dependable transfers for every trip.</p>
     </div>
     <div class="feature">
-      <img src="assets/icons/affordable.svg" alt="Affordable" />
+      <img
+        src="https://static.thenounproject.com/png/1361384-200.png"
+        alt="Affordable"
+      />
       <h3>Affordable Pricing</h3>
       <p>Competitive rates with no hidden fees or surprises.</p>
     </div>
     <div class="feature">
-      <img src="assets/icons/support.svg" alt="Support" />
-      <h3>24/7 Support</h3>
-      <p>Our team is here to assist you anytime, anywhere.</p>
+      <img
+        src="https://static.thenounproject.com/png/2389124-200.png"
+        alt="Support"
+      />
+      <h3>Comfortable Rides</h3>
+      <p>Our friendly and professional drivers ensure a comfortable journey.</p>
     </div>
   </div>
 </section>
 
 <!-- Booking Section -->
 <section class="booking" id="booking">
-  <h2 class="section-title">Book Your Transfer</h2>
+  <h2 class="section-title">Book Your Journey</h2>
   <form class="booking-form" [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
     <!-- Booking Fields -->
     <div class="form-group">

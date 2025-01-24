@@ -178,4 +178,11 @@ export class LongDistanceComponent implements OnInit {
       (month === 0 && day === 1) // New Year's Day
     );
   }
+
+  scrollToBooking(): void {
+    const bookingSection = document.querySelector('#booking');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

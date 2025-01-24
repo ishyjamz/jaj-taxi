@@ -10,11 +10,9 @@ import { AddressPickupComponent } from '../../components/pages/services/address-
 import { stat } from 'fs';
 import { StationPickupComponent } from '../../components/pages/services/station-pickup/station-pickup.component';
 import { BookingManagementComponent } from '../../components/pages/booking-management/booking-management.component';
-import { GoogleLoginComponent } from '../../components/pages/google-login/google-login.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
-  { path: 'login', component: GoogleLoginComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route
   { path: 'home', component: LandingComponent },
   { path: 'services', component: TaxiServicesComponent },
   { path: 'contact', component: ContactUsComponent },

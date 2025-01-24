@@ -1,3 +1,16 @@
+// General Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
 // Hero Section
 .hero {
   position: relative;
@@ -33,12 +46,12 @@
     text-align: center;
     max-width: 800px;
     z-index: 3; // Ensures content appears above the blur and overlay
+    animation: fadeIn 1s ease-in-out;
 
     h1 {
       font-size: 2.5rem;
       margin-bottom: 15px;
       line-height: 1.2;
-      animation: fadeIn 1s ease-in-out;
     }
 
     p {
@@ -46,21 +59,22 @@
       margin-bottom: 20px;
     }
 
-    a.btn-primary {
+    .btn-primary {
       padding: 12px 25px;
       font-size: 1rem;
       font-weight: bold;
       text-decoration: none;
-      color: white;
-      background-color: #0066cc;
+      color: var(--secondary-color);
+      cursor: pointer;
+      background-color: var(--primary-color);
       border-radius: 5px;
       transition:
         background-color 0.3s ease,
         transform 0.2s ease;
-      cursor: pointer;
 
       &:hover {
-        background-color: #005bb5;
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
         transform: translateY(-2px);
       }
     }
@@ -111,6 +125,7 @@
   align-items: center;
 
   .booking-form {
+    margin-top: 3vh;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -172,12 +187,12 @@
     }
 
     .btn-secondary {
-      background-color: #007bff;
+      background-color: var(--secondary-color);
       color: white;
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #0056b3;
+        background-color: var(--button-highlight);
       }
 
       &:disabled {
@@ -188,11 +203,12 @@
 
     .btn-primary {
       background-color: #28a745;
-      color: white;
+      color: var(--background-color);
       transition: background-color 0.3s;
 
       &:hover {
         background-color: #1e7e34;
+        color: var(--background-color);
       }
     }
 
@@ -218,5 +234,17 @@
         }
       }
     }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

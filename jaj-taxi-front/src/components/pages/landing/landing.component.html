@@ -20,16 +20,14 @@
   <div class="intro-section">
     <h1 class="intro-title">Welcome to JAJ Taxi</h1>
     <p class="intro-text">
-      Welcome to JAJ Taxi – Reliable and Friendly Taxi Service in Rugby! Looking
-      for a dependable taxi service in Rugby? Look no further than JAJ Taxi! We
-      take pride in offering exceptional 24/7 transportation solutions, ensuring
-      you're always on time, whether it’s for work, leisure, or a night out. At
-      JAJ Taxi, customer satisfaction is at the heart of everything we do. With
-      a fleet of well-maintained vehicles and friendly, experienced drivers,
-      we’re here to make your journey safe, comfortable, and stress-free.
-      Whether you're traveling across Rugby or need a longer ride, our team is
-      dedicated to providing the reliable service you deserve—day or night, rain
-      or shine. Choose JAJ Taxi for the ride you can trust!
+      Welcome to JAJ Taxi – Your Reliable Taxi Service in Rugby! Whether you’re
+      commuting to work, enjoying a night out, or planning a long-distance trip,
+      JAJ Taxi is here to offer friendly and dependable transportation 24/7.
+      With a well-maintained vehicle and a professional, experienced driver, we
+      ensure your journey is safe, comfortable, and stress-free. No matter the
+      time of day or weather conditions, JAJ Taxi is dedicated to getting you
+      where you need to go—punctually and with ease. Trust JAJ Taxi for a ride
+      you can rely on!
     </p>
   </div>
 
@@ -64,13 +62,26 @@
       </div>
     </div>
   </section>
+
   <section class="cards">
     <h2 class="section-title">Want to Find Out More?</h2>
     <div class="card-section" id="services">
-      <app-landing-card
-        *ngFor="let landingCard of landingCards"
-        [landingCard]="landingCard"
-      ></app-landing-card>
+      <div class="card">
+        <div class="card-title">Our Services</div>
+        <div class="card-description">
+          Discover the range of services we offer, from local rides to
+          long-distance travel.
+        </div>
+        <a href="/services" class="card-button">Learn More</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Contact Us</div>
+        <div class="card-description">
+          If you have any questions for us, don't hesitate to get in touch.
+        </div>
+        <a [routerLink]="['/contact']" class="card-button">Contact Us</a>
+      </div>
     </div>
   </section>
 </div>

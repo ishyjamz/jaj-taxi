@@ -3,10 +3,11 @@ import { BookingService } from '../../../app/shared/services/booking.service';
 import { Booking } from '../../../app/shared/models/booking.model';
 import { AirportBooking } from '../../../app/shared/models/airport-booking.model';
 import { Status } from '../../../app/shared/enums/status.enum';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { ConfirmModalComponent } from '../../elements/confirm-modal/confirm-modal.component';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-management',
@@ -18,6 +19,7 @@ import { ConfirmModalComponent } from '../../elements/confirm-modal/confirm-moda
     HttpClientModule,
     ReactiveFormsModule,
     CommonModule,
+    FormsModule,
     ConfirmModalComponent,
   ],
 })
@@ -30,12 +32,31 @@ export class BookingManagementComponent implements OnInit {
   isAirportModal: boolean = false;
   modalMessage: string = ''; // Message passed to modal
 
-  constructor(private bookingService: BookingService) {}
+  // Access control
+  hasAccess: boolean = false;
+  private readonly accessKey: string = 'sheema25Aa##'; // Replace with your desired access key
+
+  constructor(
+    private bookingService: BookingService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
+    try {
+      const accessKey = prompt('Enter Access Key:');
+      if (accessKey !== 'sheema25Aa##') {
+        alert('Access denied!');
+        this.router.navigate(['/']);
+      } else {
+        console.log('Access granted.');
+      }
+    } catch (error) {
+      console.error('An error occurred while showing the prompt:', error);
+    }
+
     this.loadBookings();
   }
-
+  // Booking management methods (unchanged)
   loadBookings(): void {
     this.bookingService.getBookings().subscribe((bookings) => {
       this.bookings = bookings;

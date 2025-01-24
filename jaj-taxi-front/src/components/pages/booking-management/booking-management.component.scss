@@ -3,19 +3,19 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 h1,
 h2 {
-  color: #222;
+  color: var(--primary-color);
 }
 
 // Head Container
 .head-container {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--secondary-color);
+  color: var(--background-color);
   padding: 20px;
   text-align: center;
 
@@ -44,32 +44,33 @@ h2 {
     h2 {
       font-size: 1.5rem;
       margin-bottom: 10px;
-      color: #333;
+      color: var(--secondary-color);
     }
 
     .table {
       width: 100%;
       border-collapse: collapse;
-      background-color: white;
+      background-color: var(--background-color);
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
       thead {
-        background-color: #f4f4f4;
+        background-color: var(--primary-color);
 
         th {
           text-align: left;
           padding: 10px;
-          border-bottom: 2px solid #ddd;
+          border-bottom: 2px solid var(--secondary-color);
           font-weight: bold;
         }
       }
 
       tbody {
         tr {
-          border-bottom: 1px solid #ddd;
+          border-bottom: 1px solid var(--secondary-color);
 
           &:hover {
-            background-color: #f9f9f9;
+            background-color: var(--button-highlight);
+            color: var(--background-color);
           }
 
           td {
@@ -96,20 +97,20 @@ button {
   transition: background-color 0.3s;
 
   &.accept-button {
-    background-color: #4caf50;
+    background-color: green;
     color: white;
 
     &:hover {
-      background-color: #45a049;
+      background-color: darken-color(green, 10%);
     }
   }
 
   &.decline-button {
     background-color: #f44336;
-    color: white;
+    color: var(--background-color);
 
     &:hover {
-      background-color: #e53935;
+      background-color: darken(#f44336, 10%);
     }
   }
 }

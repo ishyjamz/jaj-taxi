@@ -132,18 +132,18 @@ body {
 .checkbox:checked ~ .hamburger-lines .line1 {
   transform: rotate(45deg);
   transform-origin: top left;
-  background-color: whitesmoke;
+  background-color: var(--primary-color);
 }
 
 .checkbox:checked ~ .hamburger-lines .line2 {
   transform: scaleY(0);
-  background-color: whitesmoke;
+  background-color: var(--primary-color);
 }
 
 .checkbox:checked ~ .hamburger-lines .line3 {
   transform: rotate(-45deg);
   transform-origin: bottom left;
-  background-color: whitesmoke;
+  background-color: var(--primary-color);
 }
 
 /* Menu Items Styling */
@@ -172,7 +172,7 @@ body {
 
 .menu-items a {
   text-decoration: none;
-  color: wheat;
+  color: var(--primary-color);
   font-weight: 500;
   font-size: 1.2rem;
   transition: color 0.3s ease-in-out;
@@ -188,7 +188,7 @@ body {
   position: absolute;
   left: 0;
   top: 100%; /* Position below the parent menu item */
-  background: navy; /* Background for dropdown */
+  background: var(--primary-color); /* Background for dropdown */
   padding: 10px 0;
   list-style: none;
   width: 200px; /* Adjust width as needed */
@@ -202,13 +202,13 @@ body {
 
 .dropdown-menu a {
   font-size: 1rem;
-  color: wheat;
+  color: var(--secondary-color);
   text-decoration: none;
   transition: color 0.3s ease-in-out;
 }
 
 .dropdown-menu a:hover {
-  color: #f1c40f;
+  color: #0066cc;
 }
 
 /* Show the dropdown on hover */
@@ -244,4 +244,12 @@ main {
   main {
     margin-top: 62px;
   }
+}
+
+// Footer
+footer {
+  text-align: center;
+  padding: 20px;
+  background: var(--secondary-color);
+  color: var(--primary-color);
 }
