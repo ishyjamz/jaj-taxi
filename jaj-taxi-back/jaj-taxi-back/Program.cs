@@ -28,7 +28,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // Replace with the actual frontend origin
+        policy.WithOrigins("https://jajtaxi.co.uk")
+            .WithOrigins("https://www.jajtaxi.co.uk")// Replace with the actual frontend origin
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
